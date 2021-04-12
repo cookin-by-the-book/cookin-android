@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // This makes sure that our background art is always behind everything else
+    // From https://stackoverflow.com/a/19872801
     public void sendViewToBack(View child) {
 
         final ViewGroup mParent = (ViewGroup)child.getParent();
