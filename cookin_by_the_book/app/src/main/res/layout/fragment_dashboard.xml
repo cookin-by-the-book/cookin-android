@@ -19,4 +19,64 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/dashboard_button1"
+        android:layout_width="0dp"
+        android:layout_height="124dp"
+        android:backgroundTint="@android:color/white"
+        android:gravity="left|center_vertical"
+        android:text="John's Bolognese"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="23dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dashboard_button2" />
+
+    <Button
+        android:id="@+id/dashboard_button2"
+        android:layout_width="0dp"
+        android:layout_height="124dp"
+        android:layout_marginTop="100dp"
+        android:backgroundTint="@android:color/white"
+        android:gravity="left|center_vertical"
+        android:text="Jean's Carbonara"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="23dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/dashboard_button3"
+        android:layout_width="0dp"
+        android:layout_height="124dp"
+        android:backgroundTint="@android:color/white"
+        android:gravity="left|center_vertical"
+        android:text="Popcorn"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="23dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dashboard_button4" />
+
+    <Button
+        android:id="@+id/dashboard_button4"
+        android:layout_width="0dp"
+        android:layout_height="124dp"
+        android:backgroundTint="@android:color/white"
+        android:gravity="left|center_vertical"
+        android:text="Pizza"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="23dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dashboard_button1" />
 </androidx.constraintlayout.widget.ConstraintLayout>
