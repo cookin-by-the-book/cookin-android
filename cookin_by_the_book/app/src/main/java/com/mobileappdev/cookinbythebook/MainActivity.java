@@ -1,6 +1,8 @@
 package com.mobileappdev.cookinbythebook;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -28,6 +30,21 @@ public class MainActivity extends AppCompatActivity {
 
         if(getActionBar() != null){
             getActionBar().hide();
+        }
+
+        View background = this.findViewById(R.id.imageView);
+        sendViewToBack(background);
+
+        //View home_recipe_button01 = this.findViewById(R.id.button);
+    }
+
+    // This makes sure that our background art is always behind everything else
+    public void sendViewToBack(View child) {
+
+        final ViewGroup mParent = (ViewGroup)child.getParent();
+        if (null != mParent) {
+            mParent.removeView(child);
+            mParent.addView(child, 0);
         }
     }
 
