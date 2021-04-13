@@ -7,7 +7,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.SearchView;
+import android.widget.Spinner;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -40,7 +42,16 @@ public class MainActivity extends AppCompatActivity {
         View background = this.findViewById(R.id.imageView);
         sendViewToBack(background);
 
-        //View home_recipe_button01 = this.findViewById(R.id.button);
+        /*
+        Spinner spinner = (Spinner) findViewById(R.id.filter_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.planets_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+        */
     }
 
     // This makes sure that our background art is always behind everything else
@@ -53,21 +64,4 @@ public class MainActivity extends AppCompatActivity {
             mParent.addView(child, 0);
         }
     }
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.options_menu, menu);
-
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-
-        return true;
-    }
-*/
 }

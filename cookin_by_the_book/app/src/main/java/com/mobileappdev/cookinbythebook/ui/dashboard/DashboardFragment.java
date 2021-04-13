@@ -9,7 +9,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,13 +40,19 @@ public class DashboardFragment extends Fragment {
             }
         });
         setHasOptionsMenu(true);
-        return root;
-    }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+
+        //Spinner spinner = (Spinner) getView().findViewById(R.id.filter_spinner);
+        /*
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(), R.array.planets_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+         */
+
+        return root;
     }
 
     // Based on answers to https://stackoverflow.com/q/34291453
@@ -79,5 +87,17 @@ public class DashboardFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Spinner spinner = (Spinner) getView().findViewById(R.id.filter_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(),
+                R.array.filters_array, android.R.layout.simple_spinner_item);
+
+        spinner.setAdapter(adapter);
+
     }
 }
