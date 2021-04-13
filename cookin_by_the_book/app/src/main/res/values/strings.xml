@@ -9,4 +9,10 @@
     <string name="account">Account</string>
     <string name="logo_description">Cooking app logo of cookbook and fork and spoon.</string>
     <string name="account_avatar">account avatar</string>
+    <string-array name="filters_array">
+        <item>Alphabetical</item>
+        <item>Favorites</item>
+        <item>Shared</item>
+        <item>Recently Viewed</item>
+    </string-array>
 </resources>

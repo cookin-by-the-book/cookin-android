@@ -1,6 +1,15 @@
 package com.mobileappdev.cookinbythebook;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.SearchView;
+import android.widget.Spinner;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -29,6 +38,30 @@ public class MainActivity extends AppCompatActivity {
         if(getActionBar() != null){
             getActionBar().hide();
         }
+
+        View background = this.findViewById(R.id.imageView);
+        sendViewToBack(background);
+
+        /*
+        Spinner spinner = (Spinner) findViewById(R.id.filter_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.planets_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+        */
     }
 
+    // This makes sure that our background art is always behind everything else
+    // From https://stackoverflow.com/a/19872801
+    public void sendViewToBack(View child) {
+
+        final ViewGroup mParent = (ViewGroup)child.getParent();
+        if (null != mParent) {
+            mParent.removeView(child);
+            mParent.addView(child, 0);
+        }
+    }
 }

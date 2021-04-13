@@ -19,4 +19,96 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/dashboard_button1"
+        android:layout_width="0dp"
+        android:layout_height="124dp"
+        android:backgroundTint="@android:color/white"
+        android:gravity="left|center_vertical"
+        android:text="John's Bolognese"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="23dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dashboard_button2" />
+
+    <Button
+        android:id="@+id/dashboard_button2"
+        android:layout_width="0dp"
+        android:layout_height="124dp"
+        android:backgroundTint="@android:color/white"
+        android:gravity="left|center_vertical"
+        android:text="Jean's Carbonara"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="23dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/dashboard_button3"
+        android:layout_width="0dp"
+        android:layout_height="124dp"
+        android:backgroundTint="@android:color/white"
+        android:gravity="left|center_vertical"
+        android:text="Popcorn"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="23dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dashboard_button4" />
+
+    <Button
+        android:id="@+id/dashboard_button4"
+        android:layout_width="0dp"
+        android:layout_height="124dp"
+        android:backgroundTint="@android:color/white"
+        android:gravity="left|center_vertical"
+        android:text="Pizza"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="23dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dashboard_button1" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="94dp"
+        android:layout_marginEnd="1dp"
+        android:background="@drawable/rounded_corner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Spinner
+            android:id="@+id/filter_spinner"
+            android:layout_width="190dp"
+            android:layout_height="40dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="220dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="93dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="Filter by:\u0020\u0020"
+        android:textColor="@android:color/black"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/relativeLayout"
+        app:layout_constraintHorizontal_bias="0.052"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
