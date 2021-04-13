@@ -32,4 +32,9 @@
         android:name="com.mobileappdev.cookinbythebook.navigation_account"
         android:label="@string/account"
         tools:layout="@layout/fragment_navigation_account" />
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.mobileappdev.cookinbythebook.navigation_login"
+        android:label="fragment_navigation_login"
+        tools:layout="@layout/fragment_navigation_login" />
 </navigation>
