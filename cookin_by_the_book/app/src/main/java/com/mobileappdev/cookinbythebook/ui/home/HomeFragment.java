@@ -34,24 +34,23 @@ public class HomeFragment extends Fragment {
         ListView mListView = (ListView) root.findViewById((R.id.homeListView));
         ArrayList<Recipe> recipeArrayList = new ArrayList<>();
 
-        // recipe objects
+        // recipe objects (here is where we would query the DB)
         Recipe sandwich = new Recipe("sandwich", "Mom");
         Recipe cake = new Recipe("cake", "John");
 
         recipeArrayList.add(sandwich);
+        recipeArrayList.add(cake);        recipeArrayList.add(sandwich);
+        recipeArrayList.add(cake);        recipeArrayList.add(sandwich);
+        recipeArrayList.add(cake);        recipeArrayList.add(sandwich);
+        recipeArrayList.add(cake);        recipeArrayList.add(sandwich);
+        recipeArrayList.add(cake);        recipeArrayList.add(sandwich);
+        recipeArrayList.add(cake);        recipeArrayList.add(sandwich);
+        recipeArrayList.add(cake);        recipeArrayList.add(sandwich);
+        recipeArrayList.add(cake);        recipeArrayList.add(sandwich);
         recipeArrayList.add(cake);
 
         RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
         mListView.setAdapter(adapter);
-
-
-//        final TextView textView = root.findViewById(R.id.text_home);
-//        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
         Log.d(TAB, "onCreateView completed");
         return root;
     }

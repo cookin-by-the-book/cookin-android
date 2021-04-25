@@ -1,6 +1,7 @@
 package com.mobileappdev.cookinbythebook;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +40,19 @@ public class RecipeArrayAdapter extends ArrayAdapter<Recipe> {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
-        TextView tvName = (TextView) convertView.findViewById(R.id.receipeName);
+        // set the text of the thing
+        TextView tvName = (TextView) convertView.findViewById(R.id.recipeName);
         tvName.setText(combinedName);
+
+        // set the picture
+        /*
+        Drawable drawable = getResources().getDrawable(R.drawable.s_vit);
+        drawable.setBounds(0, 0, (int)(drawable.getIntrinsicWidth()*0.5),
+                                 (int)(drawable.getIntrinsicHeight()*0.5));
+        ScaleDrawable sd = new ScaleDrawable(drawable, 0, scaleWidth, scaleHeight);
+        Button btn = findViewbyId(R.id.yourbtnID);
+        btn.setCompoundDrawables(sd.getDrawable(), null, null, null); //set drawableLeft for example
+         */
         return  convertView;
     }
 }
