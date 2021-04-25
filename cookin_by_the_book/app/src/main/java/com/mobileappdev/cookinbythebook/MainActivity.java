@@ -3,6 +3,7 @@ package com.mobileappdev.cookinbythebook;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -20,6 +21,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
         View background = this.findViewById(R.id.imageView);
         sendViewToBack(background);
+
+        Log.d(TAG, "onCreate: Success");
     }
 
     // This makes sure that our background art is always behind everything else

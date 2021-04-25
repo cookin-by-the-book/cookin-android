@@ -15,7 +15,7 @@
         android:autofillHints=""
         android:background="#FFFFFF"
         android:ems="10"
-        android:hint="@string/recipe_name"
+        android:hint="shit fuck"
         android:inputType="text|textAutoComplete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.183"

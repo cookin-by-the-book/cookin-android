@@ -22,63 +22,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.458" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="0dp"
-        android:layout_height="124dp"
-        android:layout_marginTop="100dp"
-        android:backgroundTint="@android:color/white"
-        android:text="John's Bolognese"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textAllCaps="false"
-        android:textSize="23dp"
-        android:gravity="left|center_vertical"
-        />
+<!--    <ListView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:id="@+id/homeListView"-->
+<!--        tools:layout_editor_absoluteX="30dp"-->
+<!--        tools:layout_editor_absoluteY="66dp" />-->
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="0dp"
-        android:layout_height="124dp"
-        android:backgroundTint="@android:color/white"
-        android:gravity="left|center_vertical"
-        android:text="Jean's Carbonara"
-        android:textAllCaps="false"
-        android:textColor="@android:color/black"
-        android:textSize="23dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="0dp"
-        android:layout_height="124dp"
-        android:text="Popcorn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
-        android:backgroundTint="@android:color/white"
-        android:gravity="left|center_vertical"
-        android:textAllCaps="false"
-        android:textColor="@android:color/black"
-        android:textSize="23dp"
-        />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="0dp"
-        android:layout_height="124dp"
-        android:text="Pizza"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3"
-        android:backgroundTint="@android:color/white"
-        android:gravity="left|center_vertical"
-        android:textAllCaps="false"
-        android:textColor="@android:color/black"
-        android:textSize="23dp"
-        />
 </androidx.constraintlayout.widget.ConstraintLayout>
