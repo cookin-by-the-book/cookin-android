@@ -1,8 +1,11 @@
 package com.mobileappdev.cookinbythebook;
 
+import android.graphics.Picture;
+
 public class Recipe {
     public String name;
     public String owner;
+    public Picture picture;
 
     public Recipe(String name, String owner) {
         this.name = name;
@@ -23,5 +26,13 @@ public class Recipe {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public Picture getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Picture picture) {
+        this.picture = picture;
     }
 }
