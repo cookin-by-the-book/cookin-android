@@ -2,6 +2,7 @@ package com.mobileappdev.cookinbythebook;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -13,6 +14,8 @@ import android.widget.SearchView;
 import android.widget.Spinner;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -24,10 +27,15 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mAuth = FirebaseAuth.getInstance();
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -46,6 +54,17 @@ public class MainActivity extends AppCompatActivity {
         sendViewToBack(background);
 
         Log.d(TAG, "onCreate: Success");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: Success");
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(user == null) {
+            Log.d(TAG, "no user");
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        }
     }
 
     // This makes sure that our background art is always behind everything else
