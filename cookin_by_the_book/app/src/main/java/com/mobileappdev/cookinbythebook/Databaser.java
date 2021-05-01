@@ -31,22 +31,23 @@ public class Databaser {
     }
 
     // Util to find the owner's name based on their UUID
-    public String getOwner(String UUID, OnQueryCompleteListener listener) {
-        final String[] owner = {"Not found"};
-        Query ownerQuery = db.collection("users").whereEqualTo(FieldPath.documentId(), UUID);
-        Task ownerTask = ownerQuery.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                User user = document.toObject(User.class);
-                                owner[0] = (String) document.get("firstName");
-                            }
-                        }
-                    }
-                });
-        return owner[0];
+    public String getOwner(String UUID) {
+        return "TODO";
+//        final String[] owner = {"Not found"};
+//        Query ownerQuery = db.collection("users").whereEqualTo(FieldPath.documentId(), UUID);
+//        Task ownerTask = ownerQuery.get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                User user = document.toObject(User.class);
+//                                owner[0] = (String) document.get("firstName");
+//                            }
+//                        }
+//                    }
+//                });
+//        return owner[0];
     }
 
     // this is to do the db thing

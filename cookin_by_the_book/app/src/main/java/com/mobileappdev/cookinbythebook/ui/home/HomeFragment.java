@@ -42,6 +42,7 @@ public class HomeFragment extends Fragment {
         Databaser db = new Databaser();
         db.init();
         CollectionReference recipeStore = db.getStore("recipes");
+        // this is async, so it's sorta annoying
         recipeStore.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -56,6 +57,7 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
+        // doesn't work
         Log.d(TAG, " shit " + db.getOwner("1OZ1hfQzm7mHwKrujHNC"));
 
 
