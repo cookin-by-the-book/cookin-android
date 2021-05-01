@@ -1,5 +1,7 @@
 package com.mobileappdev.cookinbythebook.ui.home;
 
+import android.app.Application;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.mobileappdev.cookinbythebook.App;
 import com.mobileappdev.cookinbythebook.Databaser;
 import com.mobileappdev.cookinbythebook.R;
 import com.mobileappdev.cookinbythebook.Recipe;
@@ -75,7 +78,12 @@ public class HomeFragment extends Fragment {
                         }
                     }
                 });
-
+        // demo on how to get & set global prefs
+//        SharedPreferences.Editor globalSettingsEditor = ((App)getActivity().getApplication()).preferences.edit();
+        SharedPreferences globalSettingsReader = (((App) getActivity().getApplication()).preferences);
+//        globalSettingsEditor.putString("uuid", "asdfasdf");
+//        globalSettingsEditor.commit();
+        Log.d(TAG, globalSettingsReader.getString("uuid", "0"));
         Log.d(TAG, "onCreateView completed");
         return root;
     }
