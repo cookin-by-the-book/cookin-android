@@ -1,6 +1,5 @@
 package com.mobileappdev.cookinbythebook.ui.dashboard;
 
-import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -19,6 +19,7 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -37,8 +38,15 @@ import com.mobileappdev.cookinbythebook.ui.home.HomeViewModel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+
+import static androidx.core.app.ActivityCompat.recreate;
 
 public class DashboardFragment extends Fragment {
+    private String spinnerVal;
+    private int check = 0;
+    private String last;
 
     private DashboardViewModel dashboardViewModel;
 
@@ -60,8 +68,36 @@ public class DashboardFragment extends Fragment {
 
         ListView mListView = (ListView) root.findViewById((R.id.homeListView));
         ArrayList<Recipe> recipeArrayList = new ArrayList<>();
+        ArrayList<Recipe> allRecipesArrayList = new ArrayList<>();
+
 
         // recipe objects (here is where we would query the DB)
+        Spinner spinner = (Spinner) root.findViewById(R.id.filter_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this.getContext(),
+                R.array.filters_array, android.R.layout.simple_spinner_item);
+
+        spinner.setAdapter(spinnerAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            // Code in this listener adapted from https://stackoverflow.com/a/28466880
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                spinnerVal = spinner.getSelectedItem().toString();
+                if (spinnerVal != last) {
+                    last = spinnerVal;
+                    // Fragment reload code from https://stackoverflow.com/a/44299677
+                    FragmentTransaction ftr = getFragmentManager().beginTransaction();
+                    ftr.detach(DashboardFragment.this).attach(DashboardFragment.this).commit();
+                    Log.d(TAG, spinnerVal);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+        });
 
         Databaser db = new Databaser();
         db.init();
@@ -82,30 +118,65 @@ public class DashboardFragment extends Fragment {
                 });
 
         // doesn't work
-        Log.d(TAG, " shit " + db.getOwner("1OZ1hfQzm7mHwKrujHNC"));
+        Log.d(TAG, " shoot " + db.getOwner("1OZ1hfQzm7mHwKrujHNC"));
 
+        int userID = 1;
 
-        Recipe sandwich = new Recipe("sandwich", "Mom");
-        Recipe cake = new Recipe("cake", "John");
-        Recipe pasta = new Recipe("Pasta", "Matthew");
-        Recipe carbonara = new Recipe("Carbonara", "Jean");
-        Recipe hamburger = new Recipe("hamburger", "Jerry");
+        String picture = "";
+        Map<String, String> ingredients = new HashMap<String, String>();
+        String notes = "";
+        ArrayList<String> sharedWith = new ArrayList<String>();
+        ArrayList<String> steps = new ArrayList<String>();
 
-        recipeArrayList.add(sandwich);
-        recipeArrayList.add(cake);
-        recipeArrayList.add(pasta);
-        recipeArrayList.add(carbonara);
-        recipeArrayList.add(hamburger);
+        Recipe sandwich = new Recipe("Sandwich", "Mom", picture,  ingredients, notes, sharedWith, steps);
+        Recipe cake = new Recipe("Cake", "John", picture,  ingredients, notes, sharedWith, steps);
+        Recipe pasta = new Recipe("Pasta", "Matthew", picture,  ingredients, notes, sharedWith, steps);
+        Recipe carbonara = new Recipe("Carbonara", "Jean", picture,  ingredients, notes, sharedWith, steps);
+        Recipe hamburger = new Recipe("Hamburger", "Jerry", picture,  ingredients, notes, sharedWith, steps);
 
+        allRecipesArrayList.add(sandwich);
+        allRecipesArrayList.add(cake);
+        allRecipesArrayList.add(pasta);
+        allRecipesArrayList.add(carbonara);
+        allRecipesArrayList.add(hamburger);
+
+        /*if (spinnerVal == "Favorites") {
+            for (int counter = 0; counter < allRecipesArrayList.size(); counter++) {
+                if (allRecipesArrayList.get(counter)) {
+                    recipeArrayList.add(allRecipesArrayList.get(counter));
+            }
+        }*/
+        //else if (spinnerVal == "Shared")
+        /*else {
+            for (int counter = 0; counter < allRecipesArrayList.size(); counter++) {
+                recipeArrayList.add(allRecipesArrayList.get(counter));
+            }
+        }*/
+
+        //if (spinnerVal == "Alphabetical") {
         Collections.sort(recipeArrayList, new Comparator<Recipe>() {
             @Override
             public int compare(Recipe r1, Recipe r2) {
                 return (r1.name.toLowerCase()).compareTo(r2.name.toLowerCase());
             }
         });
+        //}
+        //else
+        /*if (spinnerVal == "Favorites") {
+            Collections.sort(recipeArrayList, new Comparator<Recipe>() {
+               @Override
+               public int compare(Recipe r1, Recipe r2) {
+
+               }
+            });
+        }*/
+
+        //Log.d(TAG, spinnerVal);
+        Log.d(TAG, "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
 
         RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
         mListView.setAdapter(adapter);
+
         Log.d(TAG, "onCreateView completed");
         return root;
     }
@@ -147,12 +218,5 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Spinner spinner = (Spinner) getView().findViewById(R.id.filter_spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(),
-                R.array.filters_array, android.R.layout.simple_spinner_item);
-
-        spinner.setAdapter(adapter);
-
     }
 }
