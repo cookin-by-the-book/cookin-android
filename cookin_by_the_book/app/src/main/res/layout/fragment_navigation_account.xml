@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/greeting"
         android:layout_width="105dp"
         android:layout_height="30dp"
         android:layout_marginStart="20dp"
@@ -52,7 +52,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.406"
         app:layout_constraintStart_toEndOf="@+id/account_avatar"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/greeting" />
 
     <TextView
         android:id="@+id/textView4"
@@ -72,17 +72,31 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/changePassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="160dp"
         android:layout_marginEnd="160dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="150dp"
         android:text="Change Password"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2" />
+
+    <Button
+        android:id="@+id/signOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="153dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="154dp"
+        android:layout_marginBottom="125dp"
+        android:text="Sign Out"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changePassword" />
 
     <EditText
         android:id="@+id/editTextTextPassword"
@@ -91,7 +105,7 @@
         android:layout_marginStart="100dp"
         android:layout_marginTop="150dp"
         android:layout_marginEnd="100dp"
-        android:autofillHints="New Password"
+        android:hint="New Password"
         android:ems="10"
         android:inputType="textPassword"
         android:textColor="@color/black"
@@ -107,12 +121,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
-        android:autofillHints="Confirm New Password"
+        android:hint="Confirm Password"
         android:ems="10"
         android:inputType="textPassword"
         android:textColor="@color/black"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/changePassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
