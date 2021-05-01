@@ -2,6 +2,8 @@ package com.mobileappdev.cookinbythebook;
 
 import android.graphics.Picture;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -79,4 +81,6 @@ public class Recipe {
     public void setSteps(ArrayList<String> steps) {
         this.steps = steps;
     }
+
+
 }

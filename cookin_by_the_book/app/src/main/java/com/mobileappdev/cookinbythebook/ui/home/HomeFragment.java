@@ -21,6 +21,7 @@ import com.mobileappdev.cookinbythebook.R;
 import com.mobileappdev.cookinbythebook.Recipe;
 import com.mobileappdev.cookinbythebook.RecipeArrayAdapter;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,56 +52,29 @@ public class HomeFragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String, Object> dater = document.getData();
+                                String name = (String) dater.get("name");
+                                // todo get actual name from UUID
+                                String owner = (String) dater.get("owner");
+                                String picture = (String) dater.get("picture");
+                                Map<String, String> ingredients = (Map<String, String>) dater.get("ingredients");
+                                String notes = (String) dater.get("notes");
+                                ArrayList<String> sharedWith = (ArrayList<String>) dater.get("shared_with");
+                                ArrayList<String> steps = (ArrayList<String>) dater.get("steps");
+                                Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps);
+                                recipeArrayList.add(incoming);
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                             }
+                            RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
+                            mListView.setAdapter(adapter);
                         } else {
                             Log.d(TAG, "Error getting documents.", task.getException());
+                            RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
+                            mListView.setAdapter(adapter);
                         }
                     }
                 });
 
-        // doesn't work
-        Log.d(TAG, " shit " + db.getOwner("1OZ1hfQzm7mHwKrujHNC"));
-        String picture = "";
-
-        Map<String, String> ingredients = new HashMap<String, String>();
-        String notes = "";
-        ArrayList<String> sharedWith = new ArrayList<String>();
-        ArrayList<String> steps = new ArrayList<String>();
-
-        Recipe sandwich = new Recipe("sandwich", "Mom", picture,  ingredients, notes, sharedWith, steps);
-        Recipe cake = new Recipe("cake", "John", picture,  ingredients, notes, sharedWith, steps);
-        /*
-                Recipe recipe = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps);
-
-
-        String name = getItem(position).getName();
-        String owner = getItem(position).getOwner();
-               String name = getItem(position).getName();
-        String owner = getItem(position).getOwner();
-        String picture = "";
-        String combinedName = owner + "'s " + name;
-        Map<String, String> ingredients = new HashMap<String, String>();
-        String notes = "";
-        ArrayList<String> sharedWith = new ArrayList<String>();
-        ArrayList<String> steps = new ArrayList<String>();
-         */
-
-
-
-        recipeArrayList.add(sandwich);
-        recipeArrayList.add(cake);        recipeArrayList.add(sandwich);
-        recipeArrayList.add(cake);        recipeArrayList.add(sandwich);
-        recipeArrayList.add(cake);        recipeArrayList.add(sandwich);
-        recipeArrayList.add(cake);        recipeArrayList.add(sandwich);
-        recipeArrayList.add(cake);        recipeArrayList.add(sandwich);
-        recipeArrayList.add(cake);        recipeArrayList.add(sandwich);
-        recipeArrayList.add(cake);        recipeArrayList.add(sandwich);
-        recipeArrayList.add(cake);        recipeArrayList.add(sandwich);
-        recipeArrayList.add(cake);
-
-        RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
-        mListView.setAdapter(adapter);
         Log.d(TAG, "onCreateView completed");
         return root;
     }
