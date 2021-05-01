@@ -99,6 +99,19 @@ public class DashboardFragment extends Fragment {
             }
         });
 
+
+        String hcname = null;
+        String hcowner = null;
+        String hcpicture = null;
+        Map<String, String> hcingredients = null;
+        String hcnotes = null;
+        ArrayList<String> hcsharedWith = null;
+        ArrayList<String> hcsteps = null;
+        ArrayList<String> hcfavorited = null;
+
+        String userID = "RdaBZx60uESOJrIxUnQV";
+        String userName = "Matthew";
+
         Databaser db = new Databaser();
         db.init();
         CollectionReference recipeStore = db.getStore("recipes");
@@ -109,74 +122,91 @@ public class DashboardFragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                Map<String, Object> dater = document.getData();
+                                String name = (String) dater.get("name");
+                                // todo get actual name from UUID
+                                String owner = (String) dater.get("owner");
+                                String picture = (String) dater.get("picture");
+                                Map<String, String> ingredients = (Map<String, String>) dater.get("ingredients");
+                                String notes = (String) dater.get("notes");
+                                ArrayList<String> sharedWith = (ArrayList<String>) dater.get("shared_with");
+                                ArrayList<String> steps = (ArrayList<String>) dater.get("steps");
+                                ArrayList<String> favorited = (ArrayList<String>) dater.get("favorited");
+
+                                Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited);
+                                allRecipesArrayList.add(incoming);
+                                //recipeArrayList.add(incoming);
+                                //Log.d(TAG, incoming.toString());
                             }
+                            RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
+                            Log.d(TAG, "SPINNERVAL:");
+                            Log.d(TAG, spinnerVal);
+                            if (spinnerVal.equals("Favorites")) {
+                                Log.d(TAG, "Favorites IF");
+                                for (int counter = 0; counter < allRecipesArrayList.size(); counter++) {
+                                    if (allRecipesArrayList.get(counter).favorited.contains(userID)) {
+                                        recipeArrayList.add(allRecipesArrayList.get(counter));
+                                    }
+                                }
+                            }
+                            else if (spinnerVal.equals("My Recipes")) {
+                                Log.d(TAG, "My Recipes IF");
+                                for (int counter = 0; counter < allRecipesArrayList.size(); counter++) {
+                                    if (allRecipesArrayList.get(counter).owner.equals(userID)) {
+                                        recipeArrayList.add(allRecipesArrayList.get(counter));
+                                    }
+                                }
+                            }
+                            else {
+                                Log.d(TAG, "ELSE IF");
+                                for (int counter = 0; counter < allRecipesArrayList.size(); counter++) {
+                                    recipeArrayList.add(allRecipesArrayList.get(counter));
+                                    }
+                            }
+                            Collections.sort(recipeArrayList, new Comparator<Recipe>() {
+                                @Override
+                                public int compare(Recipe r1, Recipe r2) {
+                                    return (r1.name.toLowerCase()).compareTo(r2.name.toLowerCase());
+                                }
+                            });
+
+                            mListView.setAdapter(adapter);
                         } else {
                             Log.d(TAG, "Error getting documents.", task.getException());
+                            RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
+
+                            if (spinnerVal.equals("Favorites")) {
+                                for (int counter = 0; counter < allRecipesArrayList.size(); counter++) {
+                                    if (allRecipesArrayList.get(counter).favorited.contains(userID)) {
+                                        recipeArrayList.add(allRecipesArrayList.get(counter));
+                                    }
+                                }
+                            }
+                            else if (spinnerVal.equals("My Recipes")) {
+                                Log.d(TAG, "My Recipes IF");
+                                for (int counter = 0; counter < allRecipesArrayList.size(); counter++) {
+                                    if (allRecipesArrayList.get(counter).owner.equals(userID)) {
+                                        recipeArrayList.add(allRecipesArrayList.get(counter));
+                                    }
+                                }
+                            }
+                            else {
+                                for (int counter = 0; counter < allRecipesArrayList.size(); counter++) {
+                                    recipeArrayList.add(allRecipesArrayList.get(counter));
+                                }
+                            }
+
+                            Collections.sort(recipeArrayList, new Comparator<Recipe>() {
+                                @Override
+                                public int compare(Recipe r1, Recipe r2) {
+                                    return (r1.name.toLowerCase()).compareTo(r2.name.toLowerCase());
+                                }
+                            });
+
+                            mListView.setAdapter(adapter);
                         }
                     }
                 });
-
-        // doesn't work
-        Log.d(TAG, " shoot " + db.getOwner("1OZ1hfQzm7mHwKrujHNC"));
-
-        int userID = 1;
-
-        String picture = "";
-        Map<String, String> ingredients = new HashMap<String, String>();
-        String notes = "";
-        ArrayList<String> sharedWith = new ArrayList<String>();
-        ArrayList<String> steps = new ArrayList<String>();
-
-        Recipe sandwich = new Recipe("Sandwich", "Mom", picture,  ingredients, notes, sharedWith, steps);
-        Recipe cake = new Recipe("Cake", "John", picture,  ingredients, notes, sharedWith, steps);
-        Recipe pasta = new Recipe("Pasta", "Matthew", picture,  ingredients, notes, sharedWith, steps);
-        Recipe carbonara = new Recipe("Carbonara", "Jean", picture,  ingredients, notes, sharedWith, steps);
-        Recipe hamburger = new Recipe("Hamburger", "Jerry", picture,  ingredients, notes, sharedWith, steps);
-
-        allRecipesArrayList.add(sandwich);
-        allRecipesArrayList.add(cake);
-        allRecipesArrayList.add(pasta);
-        allRecipesArrayList.add(carbonara);
-        allRecipesArrayList.add(hamburger);
-
-        /*if (spinnerVal == "Favorites") {
-            for (int counter = 0; counter < allRecipesArrayList.size(); counter++) {
-                if (allRecipesArrayList.get(counter)) {
-                    recipeArrayList.add(allRecipesArrayList.get(counter));
-            }
-        }*/
-        //else if (spinnerVal == "Shared")
-        /*else {
-            for (int counter = 0; counter < allRecipesArrayList.size(); counter++) {
-                recipeArrayList.add(allRecipesArrayList.get(counter));
-            }
-        }*/
-
-        //if (spinnerVal == "Alphabetical") {
-        Collections.sort(recipeArrayList, new Comparator<Recipe>() {
-            @Override
-            public int compare(Recipe r1, Recipe r2) {
-                return (r1.name.toLowerCase()).compareTo(r2.name.toLowerCase());
-            }
-        });
-        //}
-        //else
-        /*if (spinnerVal == "Favorites") {
-            Collections.sort(recipeArrayList, new Comparator<Recipe>() {
-               @Override
-               public int compare(Recipe r1, Recipe r2) {
-
-               }
-            });
-        }*/
-
-        //Log.d(TAG, spinnerVal);
-        Log.d(TAG, "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
-
-        RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
-        mListView.setAdapter(adapter);
-
         Log.d(TAG, "onCreateView completed");
         return root;
     }

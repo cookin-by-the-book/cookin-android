@@ -12,7 +12,6 @@
     <string-array name="filters_array">
         <item>Alphabetical</item>
         <item>Favorites</item>
-        <item>Shared</item>
-        <item>Recently Viewed</item>
+        <item>My Recipes</item>
     </string-array>
 </resources>
