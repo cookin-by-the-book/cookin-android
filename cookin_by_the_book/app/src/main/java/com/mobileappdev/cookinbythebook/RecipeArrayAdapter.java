@@ -14,7 +14,10 @@ import androidx.annotation.Nullable;
 import com.mobileappdev.cookinbythebook.ui.home.HomeFragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RecipeArrayAdapter extends ArrayAdapter<Recipe> {
 
@@ -34,8 +37,13 @@ public class RecipeArrayAdapter extends ArrayAdapter<Recipe> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         String name = getItem(position).getName();
         String owner = getItem(position).getOwner();
+        String picture = "";
         String combinedName = owner + "'s " + name;
-        Recipe recipe = new Recipe(name, owner);
+        Map<String, String> ingredients = new HashMap<String, String>();
+        String notes = "";
+        ArrayList<String> sharedWith = new ArrayList<String>();
+        ArrayList<String> steps = new ArrayList<String>();
+        Recipe recipe = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
