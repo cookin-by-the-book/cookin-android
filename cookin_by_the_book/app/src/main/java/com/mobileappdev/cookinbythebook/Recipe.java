@@ -2,6 +2,8 @@ package com.mobileappdev.cookinbythebook;
 
 import android.graphics.Picture;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -13,8 +15,9 @@ public class Recipe {
     public String notes;
     public ArrayList<String> sharedWith;
     public ArrayList<String> steps;
+    public ArrayList<String> favorited;
 
-    public Recipe(String name, String owner, String picture, Map<String, String> ingredients, String notes, ArrayList<String> sharedWith, ArrayList<String> steps) {
+    public Recipe(String name, String owner, String picture, Map<String, String> ingredients, String notes, ArrayList<String> sharedWith, ArrayList<String> steps, ArrayList<String> favorited) {
         this.name = name;
         this.owner = owner;
         this.picture = picture;
@@ -22,6 +25,7 @@ public class Recipe {
         this.notes = notes;
         this.sharedWith = sharedWith;
         this.steps = steps;
+        this.favorited = favorited;
     }
 
     public String getName() {
@@ -78,5 +82,27 @@ public class Recipe {
 
     public void setSteps(ArrayList<String> steps) {
         this.steps = steps;
+    }
+
+    public ArrayList<String> getFavorited() {
+        return favorited;
+    }
+
+    public void setFavorited(ArrayList<String> favorited) {
+        this.favorited = favorited;
+    }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "name='" + name + '\'' +
+                ", owner='" + owner + '\'' +
+                ", picture='" + picture + '\'' +
+                ", ingredients=" + ingredients +
+                ", notes='" + notes + '\'' +
+                ", sharedWith=" + sharedWith +
+                ", steps=" + steps +
+                ", favorited=" + favorited +
+                '}';
     }
 }
