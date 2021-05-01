@@ -22,6 +22,8 @@ import com.mobileappdev.cookinbythebook.Recipe;
 import com.mobileappdev.cookinbythebook.RecipeArrayAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HomeFragment extends Fragment {
 
@@ -59,10 +61,32 @@ public class HomeFragment extends Fragment {
 
         // doesn't work
         Log.d(TAG, " shit " + db.getOwner("1OZ1hfQzm7mHwKrujHNC"));
+        String picture = "";
+
+        Map<String, String> ingredients = new HashMap<String, String>();
+        String notes = "";
+        ArrayList<String> sharedWith = new ArrayList<String>();
+        ArrayList<String> steps = new ArrayList<String>();
+
+        Recipe sandwich = new Recipe("sandwich", "Mom", picture,  ingredients, notes, sharedWith, steps);
+        Recipe cake = new Recipe("cake", "John", picture,  ingredients, notes, sharedWith, steps);
+        /*
+                Recipe recipe = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps);
 
 
-        Recipe sandwich = new Recipe("sandwich", "Mom");
-        Recipe cake = new Recipe("cake", "John");
+        String name = getItem(position).getName();
+        String owner = getItem(position).getOwner();
+               String name = getItem(position).getName();
+        String owner = getItem(position).getOwner();
+        String picture = "";
+        String combinedName = owner + "'s " + name;
+        Map<String, String> ingredients = new HashMap<String, String>();
+        String notes = "";
+        ArrayList<String> sharedWith = new ArrayList<String>();
+        ArrayList<String> steps = new ArrayList<String>();
+         */
+
+
 
         recipeArrayList.add(sandwich);
         recipeArrayList.add(cake);        recipeArrayList.add(sandwich);
