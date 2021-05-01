@@ -61,9 +61,10 @@ public class HomeFragment extends Fragment {
                                 String notes = (String) dater.get("notes");
                                 ArrayList<String> sharedWith = (ArrayList<String>) dater.get("shared_with");
                                 ArrayList<String> steps = (ArrayList<String>) dater.get("steps");
-                                Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps);
+                                ArrayList<String> favorited = (ArrayList<String>) dater.get("favorited");
+                                Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited);
                                 recipeArrayList.add(incoming);
-                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                Log.d(TAG, incoming.toString());
                             }
                             RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
                             mListView.setAdapter(adapter);

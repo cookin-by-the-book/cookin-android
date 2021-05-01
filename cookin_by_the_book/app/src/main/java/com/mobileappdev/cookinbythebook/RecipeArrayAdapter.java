@@ -43,7 +43,8 @@ public class RecipeArrayAdapter extends ArrayAdapter<Recipe> {
         String notes = "";
         ArrayList<String> sharedWith = new ArrayList<String>();
         ArrayList<String> steps = new ArrayList<String>();
-        Recipe recipe = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps);
+        ArrayList<String> favorited  = new ArrayList<String>();
+        Recipe recipe = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
