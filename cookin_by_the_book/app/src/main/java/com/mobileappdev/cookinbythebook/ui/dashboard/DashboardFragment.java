@@ -178,6 +178,10 @@ public class DashboardFragment extends Fragment {
                                                     if (incoming.owner.equals(user)) {
                                                         recipeArrayList.add(incoming);
                                                     }
+                                                } else if (spinnerVal.equals("Shared with me")) {
+                                                    if (!incoming.owner.equals(user)) {
+                                                        recipeArrayList.add(incoming);
+                                                    }
                                                 } else {
                                                     recipeArrayList.add(incoming);
                                                 }
