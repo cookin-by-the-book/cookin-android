@@ -7,134 +7,299 @@
     android:layout_height="match_parent"
     tools:context=".navigation_add_recipe">
 
-    <EditText
-        android:id="@+id/editTextRecipeName"
-        android:layout_width="325dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="100dp"
-        android:autofillHints=""
-        android:background="#FFFFFF"
-        android:ems="10"
-        android:hint="@string/recipe_name"
-        android:inputType="text|textAutoComplete"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.183"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editCookTime"
-        android:layout_width="123dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="10dp"
-        android:autofillHints=""
-        android:background="#FFFFFF"
-        android:ems="10"
-        android:hint="@string/cook_time"
-        android:inputType="none|number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.055"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextRecipeName" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="60dp">
 
-    <EditText
-        android:id="@+id/editPrepTime"
-        android:layout_width="123dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="10dp"
-        android:autofillHints=""
-        android:background="#FFFFFF"
-        android:ems="10"
-        android:hint="@string/prep_time"
-        android:inputType="none|number"
-        app:layout_constraintEnd_toStartOf="@+id/editServings"
-        app:layout_constraintStart_toEndOf="@+id/editCookTime"
-        app:layout_constraintTop_toBottomOf="@+id/editTextRecipeName" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/editServings"
-        android:layout_width="109dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="24dp"
-        android:autofillHints=""
-        android:background="#FFFFFF"
-        android:ems="10"
-        android:hint="@string/servings"
-        android:inputType="none|number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextRecipeName" />
 
-    <ImageButton
-        android:id="@+id/editFoodPictureButton"
-        android:layout_width="50dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="4dp"
-        android:contentDescription="TODO"
-        android:src="@android:drawable/ic_menu_camera"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toEndOf="@+id/editTextRecipeName"
-        app:layout_constraintTop_toTopOf="@+id/editTextRecipeName" />
+            <LinearLayout
+                android:id="@+id/editLinearRecipeWithButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="horizontal"
+                >
 
-    <TextView
-        android:id="@+id/editIngredientsLabel"
-        android:layout_width="147dp"
-        android:layout_height="31dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="325dp"
-        android:text="@string/ingredients"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editCookTime" />
+                <EditText
+                    android:id="@+id/editRecipeName"
+                    android:layout_width="0dp"
+                    android:layout_height="55dp"
+                    android:layout_weight="25"
+                    android:hint="@string/recipe_name"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:text=""
+                    android:importantForAutofill="no" />
 
-    <TextView
-        android:id="@+id/editStepsLabel"
-        android:layout_width="147dp"
-        android:layout_height="31dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="325dp"
-        android:text="@string/steps"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editIngredientsListView" />
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@android:drawable/ic_menu_camera"
+                    android:contentDescription="@string/fuck_off" />
+            </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/editAddIngredientButton"
-        android:layout_width="36dp"
-        android:layout_height="34dp"
-        android:layout_marginEnd="24dp"
-        android:background="#FFFFFF"
-        android:contentDescription="TODO"
-        android:src="@android:drawable/ic_input_add"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editIngredientsLabel" />
+            <LinearLayout
+                android:id="@+id/editLinearNumberRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/editLinearRecipeWithButton">
 
-    <ListView
-        android:id="@+id/editIngredientsListView"
-        android:layout_width="403dp"
-        android:layout_height="158dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="11dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editIngredientsLabel" />
+                <EditText
+                    android:id="@+id/editPrepTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="33"
+                    android:autofillHints=""
+                    android:ems="10"
+                    android:hint="@string/prep_time"
+                    android:inputType="number" />
 
-    <ImageButton
-        android:id="@+id/editAddStepButton"
-        android:layout_width="36dp"
-        android:layout_height="34dp"
-        android:layout_marginEnd="24dp"
-        android:background="#FFFFFF"
-        android:contentDescription="TODO"
-        android:src="@android:drawable/ic_input_add"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editStepsLabel" />
+                <EditText
+                    android:id="@+id/editCookTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="33"
+                    android:autofillHints=""
+                    android:ems="10"
+                    android:hint="@string/cook_time"
+                    android:inputType="number" />
+
+                <EditText
+                    android:id="@+id/editServings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="33"
+                    android:autofillHints=""
+                    android:ems="10"
+                    android:hint="@string/servings"
+                    android:inputType="number" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/editVerticalIngredientsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/editLinearNumberRow"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:id="@+id/editLinearAddIngredients"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/editIngredientsLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="25"
+                        android:textSize="24sp"
+                        android:text="@string/ingredients" />
+
+                    <ImageButton
+                        android:id="@+id/editAddIngredientsButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/ic_input_add"
+                        android:contentDescription="@string/fuck_off" />
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/editIngredientsListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="158dp"
+                    android:layout_marginTop="11dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editIngredientsLabel" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/editVerticalStepsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/editVerticalIngredientsContainer"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/editLinearAddSteps"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:id="@+id/editStepsLabel"
+                        android:layout_width="0dp"
+                        android:layout_weight="25"
+                        android:layout_gravity="center"
+                        android:textSize="24sp"
+                        android:text="@string/steps"
+                        android:layout_height="wrap_content" />
+
+                    <ImageButton
+                        android:id="@+id/editAddStepsButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/ic_input_add"
+                        android:contentDescription="@string/fuck_off"
+                        />
+
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/editStepsListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="158dp"
+                    android:layout_marginTop="11dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editIngredientsLabel" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/editVerticalNotesContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/editVerticalStepsContainer">
+
+                <TextView
+                    android:id="@+id/editNotesLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="25sp"
+                    android:text="@string/notes" />
+
+                <EditText
+                    android:id="@+id/editNotesTextMultiLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/write_notes_here"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    android:autofillHints="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/editVerticalNotesContainer"
+                android:id="@+id/editVerticalCategoriesContainer"
+                >
+                <TextView
+                    android:id="@+id/editCategoriesLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="25sp"
+                    android:text="@string/categories"
+                    />
+                <EditText
+                    android:id="@+id/editCategoriesText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/write_categories_here_comma_seperated"
+                    android:inputType="text"
+                    android:autofillHints=""
+                    />
+
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--
+
+     <TextView
+         android:id="@+id/editIngredientsLabel"
+         android:layout_width="147dp"
+         android:layout_height="31dp"
+         android:layout_marginStart="16dp"
+         android:layout_marginTop="10dp"
+         android:layout_marginEnd="325dp"
+         android:text="@string/ingredients"
+         android:textSize="24sp"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHorizontal_bias="0.0"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/editCookTime" />
+
+     <TextView
+         android:id="@+id/editStepsLabel"
+         android:layout_width="147dp"
+         android:layout_height="31dp"
+         android:layout_marginStart="16dp"
+         android:layout_marginTop="10dp"
+         android:layout_marginEnd="325dp"
+         android:text="@string/steps"
+         android:textSize="24sp"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHorizontal_bias="0.0"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/editIngredientsListView" />
+
+
+     <ImageButton
+         android:id="@+id/editAddIngredientButton"
+         android:layout_width="36dp"
+         android:layout_height="34dp"
+         android:layout_marginEnd="24dp"
+         android:background="#FFFFFF"
+         android:contentDescription="TODO"
+         android:src="@android:drawable/ic_input_add"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toTopOf="@+id/editIngredientsLabel" />
+
+     <ListView
+         android:id="@+id/editIngredientsListView"
+         android:layout_width="match_parent"
+         android:layout_height="158dp"
+         android:layout_marginTop="11dp"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/editIngredientsLabel" />
+
+     <ImageButton
+         android:id="@+id/editAddStepButton"
+         android:layout_width="36dp"
+         android:layout_height="34dp"
+         android:layout_marginEnd="24dp"
+         android:background="#FFFFFF"
+         android:contentDescription="TODO"
+         android:src="@android:drawable/ic_input_add"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toTopOf="@+id/editStepsLabel" />
+
+     <ListView
+         android:id="@+id/editStepsListView"
+         android:layout_width="match_parent"
+         android:layout_height="158dp"
+         android:layout_marginTop="11dp"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/editStepsLabel"
+         />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>       -->

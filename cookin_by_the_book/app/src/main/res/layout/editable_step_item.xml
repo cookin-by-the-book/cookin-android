@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+
+    <EditText
+        android:id="@+id/newStep"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="75"
+        android:layout_gravity="center"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/step"
+        android:text=""
+        android:autofillHints="" />
+
+    <ImageButton
+        android:id="@+id/newStepDeleteButton"
+        android:layout_width="0dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        app:srcCompat="@android:drawable/ic_delete"
+        android:contentDescription="@string/fuck_off" />
+
+</LinearLayout>
