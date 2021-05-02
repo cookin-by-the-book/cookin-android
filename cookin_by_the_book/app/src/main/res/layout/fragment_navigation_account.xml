@@ -65,7 +65,7 @@
         android:fontFamily="sans-serif-black"
         android:text="# of Recipes:"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword"
+        app:layout_constraintBottom_toTopOf="@+id/newPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/account_avatar"
@@ -82,7 +82,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2" />
+        app:layout_constraintTop_toBottomOf="@+id/confirmPassword" />
 
     <Button
         android:id="@+id/signOut"
@@ -99,24 +99,40 @@
         app:layout_constraintTop_toBottomOf="@+id/changePassword" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/oldPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginEnd="100dp"
-        android:hint="New Password"
+        android:layout_marginStart="66dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="67dp"
         android:ems="10"
+        android:hint="Old Password"
         android:inputType="textPassword"
         android:textColor="@color/black"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword2"
+        app:layout_constraintBottom_toTopOf="@+id/newPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/account_avatar" />
 
     <EditText
-        android:id="@+id/editTextTextPassword2"
+        android:id="@+id/newPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:ems="10"
+        android:hint="New Password"
+        android:inputType="textPassword"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/confirmPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/oldPassword" />
+
+    <EditText
+        android:id="@+id/confirmPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
@@ -129,5 +145,5 @@
         app:layout_constraintBottom_toTopOf="@+id/changePassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/newPassword" />
 </androidx.constraintlayout.widget.ConstraintLayout>
