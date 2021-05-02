@@ -6,10 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".navigation_add_recipe"
-    android:layout_marginTop="?android:attr/actionBarSize">
+    >
 
 
     <androidx.core.widget.NestedScrollView
+        android:layout_marginTop="?android:attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
