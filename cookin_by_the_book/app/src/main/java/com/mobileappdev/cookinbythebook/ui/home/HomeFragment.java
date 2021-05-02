@@ -55,7 +55,6 @@ public class HomeFragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-
                                 Map<String, Object> dater = document.getData();
                                 String name = (String) dater.get("name");
                                 String picture = (String) dater.get("picture");
@@ -71,6 +70,9 @@ public class HomeFragment extends Fragment {
                                     public void onCallback(ArrayList<String> userName) {
                                         // i think we have to move everything INSIDE this...
                                         String owner = userName.get(0);
+                                        Log.d(TAG, "App Owner:");
+                                        Log.d(TAG, owner);
+                                        //String owner = userName.get(0);
                                         Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited);
                                         recipeArrayList.add(incoming);
                                         RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);

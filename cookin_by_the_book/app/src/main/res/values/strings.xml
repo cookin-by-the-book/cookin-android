@@ -13,6 +13,8 @@
         <item>Alphabetical</item>
         <item>Favorites</item>
         <item>My Recipes</item>
+        <item>Ingredients</item>
+        <item>Category</item>
     </string-array>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
