@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment {
                                 ArrayList<String> favorited = (ArrayList<String>) dater.get("favorited");
 
                                 // get human name from user id
-                                db.getName((String) dater.get("owner"), name, new Databaser.UserCallback() {
+                                db.getName((String) dater.get("owner"), new Databaser.UserCallback() {
                                     @Override
                                     public void onCallback(ArrayList<String> userName) {
                                         // i think we have to move everything INSIDE this...
