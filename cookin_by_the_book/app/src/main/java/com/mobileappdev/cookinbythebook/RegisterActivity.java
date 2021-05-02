@@ -16,6 +16,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -23,6 +26,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText editTextEmail, editTextPassword, editTextFirstName, editTextLastName;
     private Button loginButton, registerButton;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,9 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()) {
                                 Log.d(TAG, "user registered");
+                                user = new User(fName, lName, new ArrayList<>());
+                                db = FirebaseFirestore.getInstance();
+                                db.collection("users").add(user);
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                             } else {
