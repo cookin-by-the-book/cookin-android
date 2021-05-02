@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,10 +83,25 @@ public class navigation_add_recipe extends Fragment {
         ingredientsListView = (ListView) root.findViewById(R.id.editIngredientsListView);
         stepsListView = (ListView) root.findViewById(R.id.editStepsListView);
 
+        ArrayList<Ingredient> ingredientArrayList = new ArrayList<>();
+        ArrayList<Step> stepArrayList = new ArrayList<>();
+
+
+
+        // array adapters for the two custom lists
+        EditableIngredientArrayAdapter editableIngredientArrayAdapter = new EditableIngredientArrayAdapter(getContext(), R.layout.editable_ingredient_item, ingredientArrayList);
+        ingredientsListView.setAdapter(editableIngredientArrayAdapter);
+
+        EditableStepArrayAdapter editableStepArrayAdapter = new EditableStepArrayAdapter(getContext(), R.layout.editable_step_item, stepArrayList);
+        stepsListView.setAdapter(editableStepArrayAdapter);
+
+
         newIngredientsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "ingredient button clicked");
+                ingredientArrayList.add(new Ingredient("",""));
+                editableIngredientArrayAdapter.notifyDataSetChanged();
 //                ingredientArrayList.add(new Ingredient("", ""));
             }
         });
@@ -94,6 +110,8 @@ public class navigation_add_recipe extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "step button clicked ");
+                stepArrayList.add(new Step(""));
+                editableStepArrayAdapter.notifyDataSetChanged();
             }
         });
 
