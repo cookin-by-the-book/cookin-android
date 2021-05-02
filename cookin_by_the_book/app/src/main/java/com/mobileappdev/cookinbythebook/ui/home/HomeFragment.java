@@ -55,6 +55,7 @@ public class HomeFragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
+
                                 Map<String, Object> dater = document.getData();
                                 String name = (String) dater.get("name");
                                 String picture = (String) dater.get("picture");
