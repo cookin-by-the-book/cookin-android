@@ -57,19 +57,19 @@ public class HomeFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> dater = document.getData();
                                 String name = (String) dater.get("name");
-                                // todo get actual name from UUID
-                                // premliminary uuid => name?
+                                String picture = (String) dater.get("picture");
+                                Map<String, String> ingredients = (Map<String, String>) dater.get("ingredients");
+                                String notes = (String) dater.get("notes");
+                                ArrayList<String> sharedWith = (ArrayList<String>) dater.get("shared_with");
+                                ArrayList<String> steps = (ArrayList<String>) dater.get("steps");
+                                ArrayList<String> favorited = (ArrayList<String>) dater.get("favorited");
+
+                                // get human name from user id
                                 db.getName((String) dater.get("owner"), new Databaser.UserCallback() {
                                     @Override
                                     public void onCallback(ArrayList<String> userName) {
                                         // i think we have to move everything INSIDE this...
                                         String owner = userName.get(0);
-                                        String picture = (String) dater.get("picture");
-                                        Map<String, String> ingredients = (Map<String, String>) dater.get("ingredients");
-                                        String notes = (String) dater.get("notes");
-                                        ArrayList<String> sharedWith = (ArrayList<String>) dater.get("shared_with");
-                                        ArrayList<String> steps = (ArrayList<String>) dater.get("steps");
-                                        ArrayList<String> favorited = (ArrayList<String>) dater.get("favorited");
                                         Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited);
                                         recipeArrayList.add(incoming);
                                         RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
