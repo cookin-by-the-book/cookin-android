@@ -5,14 +5,14 @@
     android:id="@+id/editConstraintView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".navigation_add_recipe">
+    tools:context=".navigation_add_recipe"
+    android:layout_marginTop="?android:attr/actionBarSize">
 
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:layout_marginTop="60dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginBottom="60dp">
