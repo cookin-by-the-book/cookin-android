@@ -26,6 +26,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -115,12 +117,38 @@ public class DashboardFragment extends Fragment {
         });
 
         String search = obsInt.getSearch();
-        String userID = "RdaBZx60uESOJrIxUnQV";
-        String user = "Charlie";
+        final String[] userID = {""};
+        final String[] userFirst = {""};
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String authEmail = user.getEmail();
 
         Databaser db = new Databaser();
         db.init();
         CollectionReference recipeStore = db.getStore("recipes");
+        CollectionReference userStore = db.getStore("users");
+
+        userStore.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task0) {
+                if (task0.isSuccessful()) {
+                    for (QueryDocumentSnapshot document0 : task0.getResult()) {
+                        Map<String, Object> dater0 = document0.getData();
+                        String email = (String) dater0.get("email");
+                        String firstName = (String) dater0.get("firstName");
+                        //String lastName = (String) dater0.get("lastName");
+                        //Log.d(TAG, document0.getId());
+                        if (email.equals(authEmail)) {
+                            userFirst[0] = firstName;
+                            userID[0] = document0.getId();
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents.", task0.getException());
+                }
+            }
+        });
+
         // this is async, so it's sorta annoying
         recipeStore.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -171,15 +199,15 @@ public class DashboardFragment extends Fragment {
                                         else {
                                             if (incoming.name.toLowerCase().contains(search)) {
                                                 if (spinnerVal.equals("Favorites")) {
-                                                    if (incoming.favorited.contains(userID)) {
+                                                    if (incoming.favorited.contains(userID[0])) {
                                                         recipeArrayList.add(incoming);
                                                     }
                                                 } else if (spinnerVal.equals("My Recipes")) {
-                                                    if (incoming.owner.equals(user)) {
+                                                    if (incoming.owner.equals(userID[0])) {
                                                         recipeArrayList.add(incoming);
                                                     }
                                                 } else if (spinnerVal.equals("Shared with me")) {
-                                                    if (!incoming.owner.equals(user)) {
+                                                    if (!incoming.owner.equals(userID[0])) {
                                                         recipeArrayList.add(incoming);
                                                     }
                                                 } else {
