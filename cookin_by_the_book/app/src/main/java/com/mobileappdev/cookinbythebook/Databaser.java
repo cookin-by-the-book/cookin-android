@@ -14,6 +14,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.security.cert.Extension;
 import java.util.ArrayList;
 import java.util.Map;
@@ -31,25 +32,35 @@ public class Databaser {
     }
 
     // Util to find the owner's name based on their UUID
-    public String getOwner(String UUID) {
-        final String[] owner = {"Not found"};
-//        Query ownerQuery = db.collection("users").whereEqualTo(FieldPath.documentId(), UUID);
-//        Task ownerTask = ownerQuery.get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                User user = document.toObject(User.class);
-//                                owner[0] = (String) document.get("firstName");
-//                            }
-//                        }it
-//                    }
-//                });
-        return owner[0];
+    public void getName(String UUID, UserCallback userCallback) {
+        // place holder name
+        db.collection("users").whereEqualTo(FieldPath.documentId(), UUID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<String> userName = new ArrayList<String>();
+                            for(QueryDocumentSnapshot document : task.getResult()) {
+                                String firstName = (String) document.getData().get("firstName");
+                                String lastName = (String) document.getData().get("lastName");
+                                userName.add(firstName);
+                                userName.add(lastName);
+                            }
+                            userCallback.onCallback(userName);
+                        } else {
+                            userCallback.onCallback(new ArrayList<String>());
+                        }
+                    }
+                });
     }
 
-    // this is to do the db thing
+
+    public interface UserCallback {
+        void onCallback(ArrayList<String> userName);
+    }
+
+
 //    public interface OnUserCompleteListener {
 //        void onUsersFilled(ArrayList<String> strings);
 //        void onError(Exception taskException);
