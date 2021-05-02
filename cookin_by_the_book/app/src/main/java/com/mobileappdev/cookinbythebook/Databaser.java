@@ -33,7 +33,7 @@ public class Databaser {
     }
 
     // Util to find the owner's name based on their UUID
-    public void getName(String UUID, String recipeName, UserCallback userCallback) {
+    public void getName(String UUID, UserCallback userCallback) {
         // place holder name
         db.collection("users").whereEqualTo(FieldPath.documentId(), UUID)
                 .get()
@@ -46,7 +46,7 @@ public class Databaser {
                             DocumentSnapshot asdf = rawDoc.getDocuments().get(0);
                             userName.add((String) asdf.getData().get("firstName"));
                             userName.add((String) asdf.getData().get("lastName"));
-                            Log.d(TAG, "recipe name: " + recipeName + " owner " + (String) asdf.getData().get("firstName") );
+                            Log.d(TAG, "recipe name: " + " owner " + (String) asdf.getData().get("firstName") );
                             userCallback.onCallback(userName);
                         } else {
                             userCallback.onCallback(new ArrayList<String>());

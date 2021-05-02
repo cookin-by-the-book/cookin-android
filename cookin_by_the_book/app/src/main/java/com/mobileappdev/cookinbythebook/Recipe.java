@@ -16,8 +16,9 @@ public class Recipe {
     public ArrayList<String> sharedWith;
     public ArrayList<String> steps;
     public ArrayList<String> favorited;
+    public ArrayList<String> category;
 
-    public Recipe(String name, String owner, String picture, Map<String, String> ingredients, String notes, ArrayList<String> sharedWith, ArrayList<String> steps, ArrayList<String> favorited) {
+    public Recipe(String name, String owner, String picture, Map<String, String> ingredients, String notes, ArrayList<String> sharedWith, ArrayList<String> steps, ArrayList<String> favorited, ArrayList<String> category) {
         this.name = name;
         this.owner = owner;
         this.picture = picture;
@@ -26,6 +27,7 @@ public class Recipe {
         this.sharedWith = sharedWith;
         this.steps = steps;
         this.favorited = favorited;
+        this.category = category;
     }
 
     public String getName() {
@@ -92,6 +94,14 @@ public class Recipe {
         this.favorited = favorited;
     }
 
+    public ArrayList<String> getCategory() {
+        return category;
+    }
+
+    public void setCategory(ArrayList<String> category) {
+        this.category = category;
+    }
+
     @Override
     public String toString() {
         return "Recipe{" +
@@ -103,6 +113,7 @@ public class Recipe {
                 ", sharedWith=" + sharedWith +
                 ", steps=" + steps +
                 ", favorited=" + favorited +
+                ", category='" + category + '\'' +
                 '}';
     }
 }
