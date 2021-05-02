@@ -127,20 +127,24 @@ public class DashboardFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> dater = document.getData();
                                 String name = (String) dater.get("name");
+                                String owner = (String) dater.get("owner");
                                 String picture = (String) dater.get("picture");
                                 Map<String, String> ingredients = (Map<String, String>) dater.get("ingredients");
                                 String notes = (String) dater.get("notes");
                                 ArrayList<String> sharedWith = (ArrayList<String>) dater.get("shared_with");
                                 ArrayList<String> steps = (ArrayList<String>) dater.get("steps");
                                 ArrayList<String> favorited = (ArrayList<String>) dater.get("favorited");
-                                db.getName((String) dater.get("owner"), new Databaser.UserCallback() {
+                                // todo get actual name from UUID
+                                db.getName((String) dater.get("owner"), name, new Databaser.UserCallback() {
                                     @Override
                                     public void onCallback(ArrayList<String> userName) {
-                                        String owner = userName.get(0);
+                                        Log.d(TAG, "--------------------");
+                                        Log.d(TAG, document.toString());
+                                        Log.d(TAG, "--------------------");
                                         Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited);
-                                        recipeArrayList.add(incoming);
+                                        allRecipesArrayList.add(incoming);
                                         RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
-                                        mListView.setAdapter(adapter);
+                                        Log.d(TAG,"SPINNERVAL:");
                                         Log.d(TAG, spinnerVal);
 
                                         if(spinnerVal.equals("Favorites")) {
@@ -215,12 +219,12 @@ public class DashboardFragment extends Fragment {
 //        globalSettingsEditor.putString("uuid", "asdfasdf");
 //        globalSettingsEditor.commit();
 //        Log.d(TAG, db.getName("RdaBZx60uESOJrIxUnQV").toString());
-        db.getName("RdaBZx60uESOJrIxUnQV", new Databaser.UserCallback() {
-            @Override
-            public void onCallback(ArrayList<String> userName) {
-                Log.d(TAG, userName.get(0) +  userName.get(1));
-            }
-        });
+//        db.getName("RdaBZx60uESOJrIxUnQV", new Databaser.UserCallback() {
+//            @Override
+//            public void onCallback(ArrayList<String> userName) {
+//                Log.d(TAG, userName.get(0) +  userName.get(1));
+//            }
+//        });
         Log.d(TAG, globalSettingsReader.getString("uuid", "0"));
         Log.d(TAG, "onCreateView completed");
         return root;

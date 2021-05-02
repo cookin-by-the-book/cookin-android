@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
+    android:id="@+id/editConstraintView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".navigation_add_recipe">
@@ -15,7 +15,7 @@
         android:autofillHints=""
         android:background="#FFFFFF"
         android:ems="10"
-        android:hint="shit fuck"
+        android:hint="@string/recipe_name"
         android:inputType="text|textAutoComplete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.183"
@@ -23,14 +23,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextRecipeName2"
+        android:id="@+id/editCookTime"
         android:layout_width="123dp"
         android:layout_height="47dp"
         android:layout_marginTop="124dp"
         android:autofillHints=""
         android:background="#FFFFFF"
         android:ems="10"
-        android:hint="Cook Time"
+        android:hint="@string/cook_time"
         android:inputType="none|number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.055"
@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextRecipeName3"
+        android:id="@+id/editPrepTime"
         android:layout_width="123dp"
         android:layout_height="47dp"
         android:layout_marginStart="4dp"
@@ -46,14 +46,14 @@
         android:autofillHints=""
         android:background="#FFFFFF"
         android:ems="10"
-        android:hint="Prep Time"
+        android:hint="@string/prep_time"
         android:inputType="none|number"
-        app:layout_constraintEnd_toStartOf="@+id/editTextRecipeName4"
-        app:layout_constraintStart_toEndOf="@+id/editTextRecipeName2"
+        app:layout_constraintEnd_toStartOf="@+id/editServings"
+        app:layout_constraintStart_toEndOf="@+id/editCookTime"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextRecipeName4"
+        android:id="@+id/editServings"
         android:layout_width="109dp"
         android:layout_height="46dp"
         android:layout_marginTop="124dp"
@@ -61,13 +61,13 @@
         android:autofillHints=""
         android:background="#FFFFFF"
         android:ems="10"
-        android:hint="Servings"
+        android:hint="@string/servings"
         android:inputType="none|number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/editFoodPictureButton"
         android:layout_width="50dp"
         android:layout_height="49dp"
         android:layout_marginTop="64dp"
@@ -75,16 +75,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toEndOf="@+id/editTextRecipeName"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="TODO" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/editIngredientsLabel"
         android:layout_width="147dp"
         android:layout_height="31dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="188dp"
         android:layout_marginEnd="325dp"
-        android:text="Ingredients"
+        android:text="@string/ingredients"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/editStepsLabel"
+        android:layout_width="147dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="424dp"
+        android:layout_marginEnd="325dp"
+        android:text="@string/steps"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -92,7 +107,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/editAddIngredientButton"
         android:layout_width="36dp"
         android:layout_height="34dp"
         android:layout_marginStart="358dp"
@@ -101,6 +116,31 @@
         android:background="#FFFFFF"
         android:src="@android:drawable/ic_input_add"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="TODO" />
+
+    <ListView
+        android:id="@+id/editIngredientsListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="225dp"
+        android:layout_marginBottom="400dp"
+        tools:layout_editor_absoluteX="99dp"
+        tools:layout_editor_absoluteY="485dp" />
+
+    <ImageButton
+        android:id="@+id/editAddStepButton"
+        android:layout_width="36dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="358dp"
+        android:layout_marginTop="424dp"
+        android:layout_marginEnd="24dp"
+        android:background="#FFFFFF"
+        android:contentDescription="TODO"
+        android:src="@android:drawable/ic_input_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment {
                                 ArrayList<String> favorited = (ArrayList<String>) dater.get("favorited");
 
                                 // get human name from user id
-                                db.getName((String) dater.get("owner"), new Databaser.UserCallback() {
+                                db.getName((String) dater.get("owner"), name, new Databaser.UserCallback() {
                                     @Override
                                     public void onCallback(ArrayList<String> userName) {
                                         // i think we have to move everything INSIDE this...
@@ -92,12 +92,12 @@ public class HomeFragment extends Fragment {
 //        globalSettingsEditor.putString("uuid", "asdfasdf");
 //        globalSettingsEditor.commit();
 //        Log.d(TAG, db.getName("RdaBZx60uESOJrIxUnQV").toString());
-        db.getName("RdaBZx60uESOJrIxUnQV", new Databaser.UserCallback() {
-            @Override
-            public void onCallback(ArrayList<String> userName) {
-                Log.d(TAG, userName.get(0) +  userName.get(1));
-            }
-        });
+//        db.getName("RdaBZx60uESOJrIxUnQV", new Databaser.UserCallback() {
+//            @Override
+//            public void onCallback(ArrayList<String> userName) {
+//                Log.d(TAG, userName.get(0) +  userName.get(1));
+//            }
+//        });
         Log.d(TAG, globalSettingsReader.getString("uuid", "0"));
         Log.d(TAG, "onCreateView completed");
         return root;
