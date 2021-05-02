@@ -1,6 +1,8 @@
 package com.mobileappdev.cookinbythebook;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -29,8 +33,8 @@ public class navigation_add_recipe extends Fragment {
 
     private ImageButton newIngredientsButton, newStepButton;
     private ListView ingredientsListView, stepsListView;
-    private ArrayList<Ingredient> ingredientArrayList;
-    private ArrayList<Step> stepArrayList;
+    public ArrayList<Ingredient> ingredientArrayList = new ArrayList<>();
+    public ArrayList<Step> stepArrayList = new ArrayList<>();
 
 
 
@@ -83,8 +87,6 @@ public class navigation_add_recipe extends Fragment {
         ingredientsListView = (ListView) root.findViewById(R.id.editIngredientsListView);
         stepsListView = (ListView) root.findViewById(R.id.editStepsListView);
 
-        ArrayList<Ingredient> ingredientArrayList = new ArrayList<>();
-        ArrayList<Step> stepArrayList = new ArrayList<>();
 
 
 
@@ -95,26 +97,77 @@ public class navigation_add_recipe extends Fragment {
         EditableStepArrayAdapter editableStepArrayAdapter = new EditableStepArrayAdapter(getContext(), R.layout.editable_step_item, stepArrayList);
         stepsListView.setAdapter(editableStepArrayAdapter);
 
-
         newIngredientsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "ingredient button clicked");
-                ingredientArrayList.add(new Ingredient("",""));
+                EditText newIngredientName = (EditText) root.findViewById(R.id.newIngredientName);
+                EditText newIngredientQuantity = (EditText) root.findViewById(R.id.newIngredientQuantity);
+                ingredientArrayList.add(new Ingredient(newIngredientName.getText().toString(),newIngredientQuantity.getText().toString()));
+                newIngredientName.setText("");
+                newIngredientQuantity.setText("");
                 editableIngredientArrayAdapter.notifyDataSetChanged();
-//                ingredientArrayList.add(new Ingredient("", ""));
+////                ingredientArrayList.add(new Ingredient("", ""));
             }
         });
-
+//
         newStepButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "step button clicked ");
-                stepArrayList.add(new Step(""));
+                EditText newStep = (EditText) root.findViewById(R.id.newStep);
+                stepArrayList.add(new Step(newStep.getText().toString()));
+                newStep.setText("");
                 editableStepArrayAdapter.notifyDataSetChanged();
             }
         });
 
+
+        ingredientsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Do you want to delete this ingredient?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ingredientArrayList.remove(position);
+                                editableIngredientArrayAdapter.notifyDataSetChanged();
+                            }
+                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create().show();
+                return false;
+            }
+        });
+
+        stepsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Do you want to delete this step?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                stepArrayList.remove(position);
+                                editableStepArrayAdapter.notifyDataSetChanged();
+                            }
+                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create().show();
+                return false;
+            }
+        });
+
+
+
         return root;
     }
+
 }

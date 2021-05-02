@@ -6,8 +6,8 @@
     android:orientation="horizontal"
     >
 
-    <EditText
-        android:id="@+id/newStep"
+    <TextView
+        android:id="@+id/inputtedStep"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="75"
@@ -17,14 +17,5 @@
         android:hint="@string/step"
         android:text=""
         android:autofillHints="" />
-
-    <ImageButton
-        android:id="@+id/newStepDeleteButton"
-        android:layout_width="0dp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:layout_weight="10"
-        app:srcCompat="@android:drawable/ic_delete"
-        android:contentDescription="@string/fuck_off" />
 
 </LinearLayout>

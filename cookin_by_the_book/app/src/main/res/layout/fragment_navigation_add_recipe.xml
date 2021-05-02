@@ -120,6 +120,37 @@
                         android:contentDescription="@string/fuck_off" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    >
+                    <EditText
+                        android:id="@+id/newIngredientName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="45"
+                        android:layout_gravity="center"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:hint="@string/ingredient"
+                        android:text=""
+                        android:autofillHints="" />
+                    <EditText
+                        android:id="@+id/newIngredientQuantity"
+                        android:layout_width="0dp"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="25"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:hint="@string/quantity"
+                        android:text=""
+                        android:autofillHints="" />
+
+
+                </LinearLayout>
+
                 <ListView
                     android:id="@+id/editIngredientsListView"
                     android:layout_width="match_parent"
@@ -160,6 +191,26 @@
                         android:src="@android:drawable/ic_input_add"
                         android:contentDescription="@string/fuck_off"
                         />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    >
+                    <EditText
+                        android:id="@+id/newStep"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="75"
+                        android:layout_gravity="center"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:hint="@string/step"
+                        android:text=""
+                        android:autofillHints="" />
 
 
                 </LinearLayout>
