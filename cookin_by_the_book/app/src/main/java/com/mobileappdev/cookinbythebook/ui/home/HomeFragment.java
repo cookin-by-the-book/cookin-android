@@ -55,22 +55,30 @@ public class HomeFragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
+
                                 Map<String, Object> dater = document.getData();
                                 String name = (String) dater.get("name");
-                                // todo get actual name from UUID
-                                String owner = (String) dater.get("owner");
                                 String picture = (String) dater.get("picture");
                                 Map<String, String> ingredients = (Map<String, String>) dater.get("ingredients");
                                 String notes = (String) dater.get("notes");
                                 ArrayList<String> sharedWith = (ArrayList<String>) dater.get("shared_with");
                                 ArrayList<String> steps = (ArrayList<String>) dater.get("steps");
                                 ArrayList<String> favorited = (ArrayList<String>) dater.get("favorited");
-                                Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited);
-                                recipeArrayList.add(incoming);
-                                Log.d(TAG, incoming.toString());
+
+                                // get human name from user id
+                                db.getName((String) dater.get("owner"), new Databaser.UserCallback() {
+                                    @Override
+                                    public void onCallback(ArrayList<String> userName) {
+                                        // i think we have to move everything INSIDE this...
+                                        String owner = userName.get(0);
+                                        Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited);
+                                        recipeArrayList.add(incoming);
+                                        RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
+                                        mListView.setAdapter(adapter);
+                                    }
+                                });
                             }
-                            RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
-                            mListView.setAdapter(adapter);
+
                         } else {
                             Log.d(TAG, "Error getting documents.", task.getException());
                             RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
@@ -83,6 +91,13 @@ public class HomeFragment extends Fragment {
         SharedPreferences globalSettingsReader = (((App) getActivity().getApplication()).preferences);
 //        globalSettingsEditor.putString("uuid", "asdfasdf");
 //        globalSettingsEditor.commit();
+//        Log.d(TAG, db.getName("RdaBZx60uESOJrIxUnQV").toString());
+        db.getName("RdaBZx60uESOJrIxUnQV", new Databaser.UserCallback() {
+            @Override
+            public void onCallback(ArrayList<String> userName) {
+                Log.d(TAG, userName.get(0) +  userName.get(1));
+            }
+        });
         Log.d(TAG, globalSettingsReader.getString("uuid", "0"));
         Log.d(TAG, "onCreateView completed");
         return root;

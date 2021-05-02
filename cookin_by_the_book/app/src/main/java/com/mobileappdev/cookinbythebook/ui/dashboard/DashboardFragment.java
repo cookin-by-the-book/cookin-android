@@ -1,6 +1,7 @@
 package com.mobileappdev.cookinbythebook.ui.dashboard;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.mobileappdev.cookinbythebook.App;
 import com.mobileappdev.cookinbythebook.Databaser;
 import com.mobileappdev.cookinbythebook.MainActivity;
 import com.mobileappdev.cookinbythebook.R;
@@ -45,7 +47,7 @@ import static androidx.core.app.ActivityCompat.recreate;
 
 public class DashboardFragment extends Fragment {
     private String spinnerVal;
-    private int check = 0;
+    ObservableInteger obsInt = new ObservableInteger();
     private String last;
 
     private DashboardViewModel dashboardViewModel;
@@ -99,16 +101,17 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-
-        String hcname = null;
-        String hcowner = null;
-        String hcpicture = null;
-        Map<String, String> hcingredients = null;
-        String hcnotes = null;
-        ArrayList<String> hcsharedWith = null;
-        ArrayList<String> hcsteps = null;
-        ArrayList<String> hcfavorited = null;
-
+        /*obsInt.setOnIntegerChangeListener(new OnIntegerChangeListener()
+        {
+            @Override
+            public void onIntegerChanged(int newValue)
+            {
+                Log.d(TAG, "LISTENER LISTENED!!!");
+                FragmentTransaction ftr = getFragmentManager().beginTransaction();
+                ftr.detach(DashboardFragment.this).attach(DashboardFragment.this).commit();
+            }
+        });*/
+        Log.d(TAG, obsInt.getSearch());
         String userID = "RdaBZx60uESOJrIxUnQV";
         String userName = "Matthew";
 
@@ -124,57 +127,58 @@ public class DashboardFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> dater = document.getData();
                                 String name = (String) dater.get("name");
-                                // todo get actual name from UUID
-                                String owner = (String) dater.get("owner");
                                 String picture = (String) dater.get("picture");
                                 Map<String, String> ingredients = (Map<String, String>) dater.get("ingredients");
                                 String notes = (String) dater.get("notes");
                                 ArrayList<String> sharedWith = (ArrayList<String>) dater.get("shared_with");
                                 ArrayList<String> steps = (ArrayList<String>) dater.get("steps");
                                 ArrayList<String> favorited = (ArrayList<String>) dater.get("favorited");
+                                db.getName((String) dater.get("owner"), new Databaser.UserCallback() {
+                                    @Override
+                                    public void onCallback(ArrayList<String> userName) {
+                                        String owner = userName.get(0);
+                                        Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited);
+                                        recipeArrayList.add(incoming);
+                                        RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
+                                        mListView.setAdapter(adapter);
+                                        Log.d(TAG, spinnerVal);
 
-                                Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited);
-                                allRecipesArrayList.add(incoming);
-                                //recipeArrayList.add(incoming);
-                                //Log.d(TAG, incoming.toString());
-                            }
-                            RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
-                            Log.d(TAG, "SPINNERVAL:");
-                            Log.d(TAG, spinnerVal);
-                            if (spinnerVal.equals("Favorites")) {
-                                Log.d(TAG, "Favorites IF");
-                                for (int counter = 0; counter < allRecipesArrayList.size(); counter++) {
-                                    if (allRecipesArrayList.get(counter).favorited.contains(userID)) {
-                                        recipeArrayList.add(allRecipesArrayList.get(counter));
+                                        if(spinnerVal.equals("Favorites")) {
+                                                Log.d(TAG, "Favorites IF");
+                                                for (int counter = 0; counter < allRecipesArrayList.size(); counter++) {
+                                                    if (allRecipesArrayList.get(counter).favorited.contains(userID)) {
+                                                        recipeArrayList.add(allRecipesArrayList.get(counter));
+                                                    }
+                                                }
+                                            }
+                                        else if(spinnerVal.equals("My Recipes")) {
+                                                Log.d(TAG, "My Recipes IF");
+                                                for (int counter = 0; counter < allRecipesArrayList.size(); counter++) {
+                                                    if (allRecipesArrayList.get(counter).owner.equals(userID)) {
+                                                        recipeArrayList.add(allRecipesArrayList.get(counter));
+                                                    }
+                                                }
+                                            }
+                                        else {
+                                                Log.d(TAG, "ELSE IF");
+                                                for (int counter = 0; counter < allRecipesArrayList.size(); counter++) {
+                                                    recipeArrayList.add(allRecipesArrayList.get(counter));
+                                                }
+                                            }
+                                        Collections.sort(recipeArrayList,new Comparator<Recipe>() {
+                                                @Override
+                                                public int compare (Recipe r1, Recipe r2){
+                                                    return (r1.name.toLowerCase()).compareTo(r2.name.toLowerCase());
+                                                }
+                                            });
+                                        mListView.setAdapter(adapter);
                                     }
-                                }
+                                });
                             }
-                            else if (spinnerVal.equals("My Recipes")) {
-                                Log.d(TAG, "My Recipes IF");
-                                for (int counter = 0; counter < allRecipesArrayList.size(); counter++) {
-                                    if (allRecipesArrayList.get(counter).owner.equals(userID)) {
-                                        recipeArrayList.add(allRecipesArrayList.get(counter));
-                                    }
-                                }
-                            }
-                            else {
-                                Log.d(TAG, "ELSE IF");
-                                for (int counter = 0; counter < allRecipesArrayList.size(); counter++) {
-                                    recipeArrayList.add(allRecipesArrayList.get(counter));
-                                    }
-                            }
-                            Collections.sort(recipeArrayList, new Comparator<Recipe>() {
-                                @Override
-                                public int compare(Recipe r1, Recipe r2) {
-                                    return (r1.name.toLowerCase()).compareTo(r2.name.toLowerCase());
-                                }
-                            });
-
-                            mListView.setAdapter(adapter);
                         } else {
                             Log.d(TAG, "Error getting documents.", task.getException());
                             RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
-
+                            /*
                             if (spinnerVal.equals("Favorites")) {
                                 for (int counter = 0; counter < allRecipesArrayList.size(); counter++) {
                                     if (allRecipesArrayList.get(counter).favorited.contains(userID)) {
@@ -201,12 +205,23 @@ public class DashboardFragment extends Fragment {
                                 public int compare(Recipe r1, Recipe r2) {
                                     return (r1.name.toLowerCase()).compareTo(r2.name.toLowerCase());
                                 }
-                            });
+                            });*/
 
                             mListView.setAdapter(adapter);
                         }
                     }
                 });
+        SharedPreferences globalSettingsReader = (((App) getActivity().getApplication()).preferences);
+//        globalSettingsEditor.putString("uuid", "asdfasdf");
+//        globalSettingsEditor.commit();
+//        Log.d(TAG, db.getName("RdaBZx60uESOJrIxUnQV").toString());
+        db.getName("RdaBZx60uESOJrIxUnQV", new Databaser.UserCallback() {
+            @Override
+            public void onCallback(ArrayList<String> userName) {
+                Log.d(TAG, userName.get(0) +  userName.get(1));
+            }
+        });
+        Log.d(TAG, globalSettingsReader.getString("uuid", "0"));
         Log.d(TAG, "onCreateView completed");
         return root;
     }
@@ -229,6 +244,9 @@ public class DashboardFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                Log.d(TAG, "REACHED onQueryTextSubmit");
+                obsInt.set(obsInt.get() + 1);
+                obsInt.setSearch(query);
                 return false;
             }
 
