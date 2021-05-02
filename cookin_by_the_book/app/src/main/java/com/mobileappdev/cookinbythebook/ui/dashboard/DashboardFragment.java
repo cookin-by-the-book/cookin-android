@@ -136,11 +136,12 @@ public class DashboardFragment extends Fragment {
                                 ArrayList<String> sharedWith = (ArrayList<String>) dater.get("shared_with");
                                 ArrayList<String> steps = (ArrayList<String>) dater.get("steps");
                                 ArrayList<String> favorited = (ArrayList<String>) dater.get("favorited");
+                                ArrayList<String> categories = (ArrayList<String>) dater.get("categories");
                                 db.getName((String)dater.get("owner"), new Databaser.UserCallback() {
                                     @Override
                                     public void onCallback(ArrayList<String> userName) {
                                         String owner = userName.get(0);
-                                        Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited);
+                                        Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited, categories);
                                         RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
 
                                         Log.d(TAG, search);
@@ -150,6 +151,17 @@ public class DashboardFragment extends Fragment {
                                             Set<Map.Entry<String, String>> s = incoming.ingredients.entrySet();
                                             for (Map.Entry<String, String> it: s) {
                                                 if (it.getKey().toLowerCase().contains(search)) {
+                                                    if (!recipeArrayList.contains(incoming)) {
+                                                        recipeArrayList.add(incoming);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else if (spinnerVal.equals("Category")) {
+                                            Log.d(TAG, search);
+                                            for (int counter = 0; counter < incoming.category.size(); counter++) {
+                                                Log.d(TAG, incoming.category.get(counter));
+                                                if (incoming.category.get(counter).toLowerCase().contains(search)) {
                                                     if (!recipeArrayList.contains(incoming)) {
                                                         recipeArrayList.add(incoming);
                                                     }

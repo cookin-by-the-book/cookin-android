@@ -63,6 +63,7 @@ public class HomeFragment extends Fragment {
                                 ArrayList<String> sharedWith = (ArrayList<String>) dater.get("shared_with");
                                 ArrayList<String> steps = (ArrayList<String>) dater.get("steps");
                                 ArrayList<String> favorited = (ArrayList<String>) dater.get("favorited");
+                                ArrayList<String> categories = (ArrayList<String>) dater.get("categories");
 
                                 // get human name from user id
                                 db.getName((String) dater.get("owner"), new Databaser.UserCallback() {
@@ -73,7 +74,7 @@ public class HomeFragment extends Fragment {
                                         Log.d(TAG, "App Owner:");
                                         Log.d(TAG, owner);
                                         //String owner = userName.get(0);
-                                        Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited);
+                                        Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited, categories);
                                         recipeArrayList.add(incoming);
                                         RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
                                         mListView.setAdapter(adapter);
