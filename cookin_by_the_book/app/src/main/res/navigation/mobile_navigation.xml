@@ -18,11 +18,6 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.mobileappdev.cookinbythebook.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
-    <fragment
         android:id="@+id/navigation_add_recipe"
         android:name="com.mobileappdev.cookinbythebook.navigation_add_recipe"
         android:label="@string/add_recipe"
@@ -32,9 +27,5 @@
         android:name="com.mobileappdev.cookinbythebook.navigation_account"
         android:label="@string/account"
         tools:layout="@layout/fragment_navigation_account" />
-    <fragment
-        android:id="@+id/navigation_login"
-        android:name="com.mobileappdev.cookinbythebook.navigation_login"
-        android:label="fragment_navigation_login"
-        tools:layout="@layout/fragment_navigation_login" />
+
 </navigation>
