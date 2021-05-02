@@ -37,4 +37,7 @@
     <string name="write_notes_here">Write notes here...</string>
     <string name="write_categories_here_comma_seperated">Write categories here... (Comma seperated)</string>
     <string name="categories">Categories</string>
+    <string name="ingredient">Ingredient</string>
+    <string name="quantity">Quantity</string>
+    <string name="step">Step</string>
 </resources>
