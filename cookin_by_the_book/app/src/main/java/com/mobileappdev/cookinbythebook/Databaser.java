@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -32,7 +33,7 @@ public class Databaser {
     }
 
     // Util to find the owner's name based on their UUID
-    public void getName(String UUID, UserCallback userCallback) {
+    public void getName(String UUID, String recipeName, UserCallback userCallback) {
         // place holder name
         db.collection("users").whereEqualTo(FieldPath.documentId(), UUID)
                 .get()
@@ -41,12 +42,11 @@ public class Databaser {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             ArrayList<String> userName = new ArrayList<String>();
-                            for(QueryDocumentSnapshot document : task.getResult()) {
-                                String firstName = (String) document.getData().get("firstName");
-                                String lastName = (String) document.getData().get("lastName");
-                                userName.add(firstName);
-                                userName.add(lastName);
-                            }
+                            QuerySnapshot rawDoc = task.getResult();
+                            DocumentSnapshot asdf = rawDoc.getDocuments().get(0);
+                            userName.add((String) asdf.getData().get("firstName"));
+                            userName.add((String) asdf.getData().get("lastName"));
+                            Log.d(TAG, "recipe name: " + recipeName + " owner " + (String) asdf.getData().get("firstName") );
                             userCallback.onCallback(userName);
                         } else {
                             userCallback.onCallback(new ArrayList<String>());

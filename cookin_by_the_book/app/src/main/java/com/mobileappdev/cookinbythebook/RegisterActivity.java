@@ -17,57 +17,60 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class LoginActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
-    private static final String TAG = "Login";
-    private EditText editTextEmail, editTextPassword;
+    private static final String TAG = "Register";
+    private EditText editTextEmail, editTextPassword, editTextFirstName, editTextLastName;
     private Button loginButton, registerButton;
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
 
         loginButton = (Button) findViewById(R.id.login);
         registerButton = (Button) findViewById(R.id.register);
         editTextEmail = (EditText) findViewById(R.id.emailLogin);
         editTextPassword = (EditText) findViewById(R.id.passwordLogin);
+        editTextFirstName = (EditText) findViewById(R.id.firstName);
+        editTextLastName = (EditText) findViewById(R.id.lastName);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = editTextEmail.getText().toString();
-                String password = editTextPassword.getText().toString();
-
-                if(!email.isEmpty() && !password.isEmpty()) {
-                    Log.d(TAG, "email and password");
-                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()) {
-                                Log.d(TAG, "login success");
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                FirebaseUser user = mAuth.getCurrentUser();
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                } else {
-                    Toast.makeText(LoginActivity.this, "Please enter values", Toast.LENGTH_SHORT).show();
-                }
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
         });
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                String email = editTextEmail.getText().toString();
+                String password = editTextPassword.getText().toString();
+                String fName = editTextFirstName.getText().toString();
+                String lName = editTextLastName.getText().toString();
+
+                if(!email.isEmpty() && !password.isEmpty()) {
+                    Log.d(TAG, "email and password");
+                    mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()) {
+                                Log.d(TAG, "user registered");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                            } else {
+                                Log.d(TAG, "registration failed");
+                                Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Please enter values", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
-
-
 }

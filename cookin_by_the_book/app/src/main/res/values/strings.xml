@@ -25,4 +25,10 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="recipe_name">Recipe name</string>
+    <string name="cook_time">Cook Time</string>
+    <string name="prep_time">Prep Time</string>
+    <string name="servings">Servings</string>
+    <string name="steps">Steps</string>
+    <string name="ingredients">Ingredients</string>
 </resources>
