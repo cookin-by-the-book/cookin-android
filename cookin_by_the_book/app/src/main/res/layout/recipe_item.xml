@@ -20,9 +20,11 @@
         />
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="124dp"
+        android:layout_height="125dp"
         android:layout_weight="70"
-        android:src="@drawable/sprite_can"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:src="@drawable/wine"
         />
 
 </LinearLayout>
