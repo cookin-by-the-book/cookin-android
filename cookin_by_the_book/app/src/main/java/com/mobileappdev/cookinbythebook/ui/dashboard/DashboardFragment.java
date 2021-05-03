@@ -3,6 +3,7 @@ package com.mobileappdev.cookinbythebook.ui.dashboard;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -50,8 +51,10 @@ import static androidx.core.app.ActivityCompat.recreate;
 
 public class DashboardFragment extends Fragment {
     private String spinnerVal;
+    private String spinner2Val;
     ObservableInteger obsInt = new ObservableInteger();
     private String last;
+    private String last2;
 
     private DashboardViewModel dashboardViewModel;
 
@@ -78,12 +81,17 @@ public class DashboardFragment extends Fragment {
 
         // recipe objects (here is where we would query the DB)
         Spinner spinner = (Spinner) root.findViewById(R.id.filter_spinner);
+        Spinner spinner2 = (Spinner) root.findViewById(R.id.search_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
 
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this.getContext(),
                 R.array.filters_array, android.R.layout.simple_spinner_item);
 
+        ArrayAdapter<CharSequence> spinner2Adapter = ArrayAdapter.createFromResource(this.getContext(),
+                R.array.search_array, android.R.layout.simple_spinner_item);
+
         spinner.setAdapter(spinnerAdapter);
+        spinner2.setAdapter(spinner2Adapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             // Code in this listener adapted from https://stackoverflow.com/a/28466880
@@ -96,7 +104,27 @@ public class DashboardFragment extends Fragment {
                     Log.d(TAG, "RELOADING");
                     FragmentTransaction ftr = getFragmentManager().beginTransaction();
                     ftr.detach(DashboardFragment.this).attach(DashboardFragment.this).commit();
-                    Log.d(TAG, spinnerVal);
+                    //Log.d(TAG, spinnerVal);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+        });
+
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            // Code in this listener adapted from https://stackoverflow.com/a/28466880
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                spinner2Val = spinner2.getSelectedItem().toString();
+                if (spinner2Val != last2) {
+                    last2 = spinner2Val;
+                    // Fragment reload code from https://stackoverflow.com/a/44299677
+                    Log.d(TAG, "RELOADING");
+                    FragmentTransaction ftr = getFragmentManager().beginTransaction();
+                    ftr.detach(DashboardFragment.this).attach(DashboardFragment.this).commit();
+                    //Log.d(TAG, spinner2Val);
                 }
             }
             @Override
@@ -136,15 +164,13 @@ public class DashboardFragment extends Fragment {
                         Map<String, Object> dater0 = document0.getData();
                         String email = (String) dater0.get("email");
                         String firstName = (String) dater0.get("firstName");
-                        //String lastName = (String) dater0.get("lastName");
-                        //Log.d(TAG, document0.getId());
                         if (email.equals(authEmail)) {
                             userFirst[0] = firstName;
                             userID[0] = document0.getId();
                         }
                     }
                 } else {
-                    Log.d(TAG, "Error getting documents.", task0.getException());
+                    //Log.d(TAG, "Error getting documents.", task0.getException());
                 }
             }
         });
@@ -171,11 +197,7 @@ public class DashboardFragment extends Fragment {
                                         String owner = userName.get(0);
                                         Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited, categories);
                                         RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
-
-                                        Log.d(TAG, search);
-                                        Log.d(TAG, incoming.name);
-
-                                        if (spinnerVal.equals("Ingredients")) {
+                                        if (spinner2Val.equals("Ingredients")) {
                                             Set<Map.Entry<String, String>> s = incoming.ingredients.entrySet();
                                             for (Map.Entry<String, String> it: s) {
                                                 if (it.getKey().toLowerCase().contains(search)) {
@@ -185,10 +207,8 @@ public class DashboardFragment extends Fragment {
                                                 }
                                             }
                                         }
-                                        else if (spinnerVal.equals("Category")) {
-                                            Log.d(TAG, search);
+                                        else if (spinner2Val.equals("Category")) {
                                             for (int counter = 0; counter < incoming.category.size(); counter++) {
-                                                Log.d(TAG, incoming.category.get(counter));
                                                 if (incoming.category.get(counter).toLowerCase().contains(search)) {
                                                     if (!recipeArrayList.contains(incoming)) {
                                                         recipeArrayList.add(incoming);
@@ -227,7 +247,7 @@ public class DashboardFragment extends Fragment {
                                 });
                             }
                         } else {
-                            Log.d(TAG, "Error getting documents.", task.getException());
+                            //Log.d(TAG, "Error getting documents.", task.getException());
                             RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
                             mListView.setAdapter(adapter);
                         }
@@ -235,22 +255,20 @@ public class DashboardFragment extends Fragment {
                 });
 
         SharedPreferences globalSettingsReader = (((App) getActivity().getApplication()).preferences);
-//        globalSettingsEditor.putString("uuid", "asdfasdf");
-//        globalSettingsEditor.commit();
-//        Log.d(TAG, db.getName("RdaBZx60uESOJrIxUnQV").toString());
         db.getName("RdaBZx60uESOJrIxUnQV", new Databaser.UserCallback() {
             @Override
             public void onCallback(ArrayList<String> userName) {
-                Log.d(TAG, userName.get(0) +  userName.get(1));
             }
         });
-        Log.d(TAG, globalSettingsReader.getString("uuid", "0"));
         return root;
     }
 
     // Based on answers to https://stackoverflow.com/q/34291453
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        //final boolean[] hasChanged = new boolean[1];
+        //hasChanged[0] = false;
+
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.options_menu, menu);
@@ -269,11 +287,17 @@ public class DashboardFragment extends Fragment {
                 Log.d(TAG, "REACHED onQueryTextSubmit");
                 obsInt.set(obsInt.get() + 1);
                 obsInt.setSearch(query);
+                obsInt.setChanged(1);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if (TextUtils.isEmpty(newText) && obsInt.getChanged() == 1) {
+                    obsInt.set(obsInt.get() + 1);
+                    obsInt.setSearch("");
+                    obsInt.setChanged(0);
+                }
                 return false;
             }
         });

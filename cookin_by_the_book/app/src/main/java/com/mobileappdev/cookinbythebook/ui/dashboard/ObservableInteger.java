@@ -6,6 +6,7 @@ public class ObservableInteger
 
     private int value = 0;
     private String search = "";
+    private int changed = 0;
 
     public void setOnIntegerChangeListener(OnIntegerChangeListener listener)
     {
@@ -33,5 +34,13 @@ public class ObservableInteger
 
     public String getSearch() {
         return search;
+    }
+
+    public void setChanged(int value) {
+        this.changed = value;
+    }
+
+    public int getChanged() {
+        return changed;
     }
 }

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.dashboard.DashboardFragment">
 
+    <!-- IGNORE THIS BUT DONT REMOVE IT OR THINGS BREAK -->
     <TextView
         android:id="@+id/text_dashboard"
         android:layout_width="match_parent"
@@ -20,6 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- TOP SPINNER BACKGROUND -->
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="190dp"
@@ -29,11 +31,26 @@
         android:background="@drawable/rounded_corner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
+        <!-- TOP SPINNER -->
         <Spinner
             android:id="@+id/filter_spinner"
             android:layout_width="190dp"
             android:layout_height="40dp" />
+    </RelativeLayout>
+
+    <!-- BOTTOM SPINNER BACKGROUND -->
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="1dp"
+        android:background="@drawable/rounded_corner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
+        <!-- BOTTOM SPINNER -->
+
     </RelativeLayout>
 
     <TextView
@@ -53,11 +70,34 @@
 
     <ListView
         android:id="@+id/homeListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="140dp"
+        android:layout_width="410dp"
+        android:layout_height="500dp"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="50dp"
-        tools:layout_editor_absoluteX="151dp"
-        tools:layout_editor_absoluteY="213dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="220dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="Search by:\u0020\u0020"
+        android:textColor="@android:color/black"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Spinner
+        android:id="@+id/search_spinner"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
