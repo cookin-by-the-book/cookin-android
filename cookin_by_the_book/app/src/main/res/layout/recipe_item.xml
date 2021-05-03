@@ -25,21 +25,4 @@
         android:src="@drawable/sprite_can"
         />
 
-    <!--
-        <Button
-        android:id="@+id/dashboard_button2"
-        android:layout_width="0dp"
-        android:layout_height="124dp"
-        android:backgroundTint="@android:color/white"
-        android:gravity="left|center_vertical"
-        android:text="Jean's Carbonara"
-        android:textAllCaps="false"
-        android:textColor="@android:color/black"
-        android:textSize="23dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-    -->
-
 </LinearLayout>

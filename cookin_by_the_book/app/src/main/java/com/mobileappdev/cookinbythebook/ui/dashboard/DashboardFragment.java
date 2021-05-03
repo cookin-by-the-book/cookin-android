@@ -195,7 +195,7 @@ public class DashboardFragment extends Fragment {
                                     @Override
                                     public void onCallback(ArrayList<String> userName) {
                                         String owner = userName.get(0);
-                                        Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited, categories);
+                                        Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited, categories, "", "", "");
                                         RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
                                         if (spinner2Val.equals("Ingredients")) {
                                             Set<Map.Entry<String, String>> s = incoming.ingredients.entrySet();
