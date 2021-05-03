@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="?android:attr/actionBarSize"
     tools:context=".ViewRecipeActivity">
 
     <androidx.core.widget.NestedScrollView
@@ -34,7 +33,8 @@
                     android:layout_width="0dp"
                     android:layout_height="55dp"
                     android:layout_weight="25"
-                    android:textSize="36sp"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMaxTextSize="36sp"
                     android:ems="10"
                     android:text="Placeholder Text"
                     />

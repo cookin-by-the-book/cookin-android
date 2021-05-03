@@ -1,6 +1,7 @@
 package com.mobileappdev.cookinbythebook.ui.dashboard;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -38,6 +39,7 @@ import com.mobileappdev.cookinbythebook.MainActivity;
 import com.mobileappdev.cookinbythebook.R;
 import com.mobileappdev.cookinbythebook.Recipe;
 import com.mobileappdev.cookinbythebook.RecipeArrayAdapter;
+import com.mobileappdev.cookinbythebook.ViewRecipeActivity;
 import com.mobileappdev.cookinbythebook.ui.home.HomeViewModel;
 
 import java.util.ArrayList;
@@ -191,11 +193,14 @@ public class DashboardFragment extends Fragment {
                                 ArrayList<String> steps = (ArrayList<String>) dater.get("steps");
                                 ArrayList<String> favorited = (ArrayList<String>) dater.get("favorited");
                                 ArrayList<String> categories = (ArrayList<String>) dater.get("categories");
+                                String prepTime = (String) dater.get("prepTime");
+                                String cookTime = (String) dater.get("cookTime");
+                                String servings = (String) dater.get("servings");
                                 db.getName((String)dater.get("owner"), new Databaser.UserCallback() {
                                     @Override
                                     public void onCallback(ArrayList<String> userName) {
                                         String owner = userName.get(0);
-                                        Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited, categories, "", "", "");
+                                        Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited, categories, prepTime, cookTime, servings);
                                         RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
                                         if (spinner2Val.equals("Ingredients")) {
                                             Set<Map.Entry<String, String>> s = incoming.ingredients.entrySet();
@@ -258,6 +263,17 @@ public class DashboardFragment extends Fragment {
         db.getName("RdaBZx60uESOJrIxUnQV", new Databaser.UserCallback() {
             @Override
             public void onCallback(ArrayList<String> userName) {
+            }
+        });
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getContext(), ViewRecipeActivity.class);
+                Recipe intentRecipe = recipeArrayList.get(position);
+                Log.d(TAG, intentRecipe.toString());
+                intent.putExtra("recipe", intentRecipe);
+                startActivity(intent);
             }
         });
         return root;

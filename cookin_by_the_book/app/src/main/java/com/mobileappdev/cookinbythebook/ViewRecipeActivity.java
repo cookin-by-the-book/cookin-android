@@ -3,13 +3,18 @@ package com.mobileappdev.cookinbythebook;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class ViewRecipeActivity extends AppCompatActivity {
 
@@ -24,12 +29,17 @@ public class ViewRecipeActivity extends AppCompatActivity {
     TextView notes;
     TextView categories;
 
+    ArrayList<Ingredient> ingredientArrayList = new ArrayList<>();
+    ArrayList<Step> stepArrayList = new ArrayList<>();
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_recipe);
+
+
         Bundle data = getIntent().getExtras();
         Recipe incame = (Recipe) data.get("recipe");
 
@@ -44,11 +54,44 @@ public class ViewRecipeActivity extends AppCompatActivity {
         categories = (TextView) findViewById(R.id.staticCategoriesText);
 
         // set the TextViews to what they should be
-        recipeName.setText(incame.name);
-        prepTime.setText("Prep:\n" + incame.prepTime);
-        cookTime.setText("Cook:\n" + incame.cookTime);
+        recipeName.setText(incame.name + " by " + incame.owner);
+        prepTime.setText("Prep time:\n" + incame.prepTime + " mins");
+        cookTime.setText("Cook time:\n" + incame.cookTime + " mins");
         servings.setText("Serves:\n" + incame.servings);
-        notes.setText(incame.notes);
+        if (incame.notes.isEmpty()){
+            notes.setText(("None"));
+        } else {
+            notes.setText(incame.notes);
+        }
+
+
+
+        // ingredient map to ListArray<ingredient>
+
+        for (Map.Entry<String, String> ingredient : incame.ingredients.entrySet()) {
+            ingredientArrayList.add(new Ingredient(ingredient.getKey(), ingredient.getValue()));
+        }
+
+        for (String step : incame.steps) {
+            stepArrayList.add(new Step(step));
+        }
+
+
+
+        // set the list views
+        EditableIngredientArrayAdapter staticIngredientArrayAdapter = new EditableIngredientArrayAdapter(this, R.layout.editable_ingredient_item, ingredientArrayList);
+        ingredientsListView.setAdapter(staticIngredientArrayAdapter);
+
+        EditableStepArrayAdapter staticStepArrayAdapter = new EditableStepArrayAdapter(this, R.layout.editable_step_item, stepArrayList);
+        stepsListView.setAdapter(staticStepArrayAdapter);
+
+        // set the categories
+        if (incame.category != null) {
+            categories.setText(String.join(",", incame.category));
+        } else {
+            categories.setText("None");
+        }
+
 
 
         Log.d(TAG, incame.toString());

@@ -12,13 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CookinByTheBook">
-        <activity android:name=".ViewRecipeActivity"></activity>
+        <activity android:name=".ViewRecipeActivity"
+            android:label="View Recipe"
+            />
         <activity
             android:name=".LoginActivity"
             android:label="Login" />
         <activity
             android:name=".RegisterActivity"
             android:label="Registration" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
