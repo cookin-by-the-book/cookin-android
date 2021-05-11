@@ -42,12 +42,16 @@ public class Databaser {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             ArrayList<String> userName = new ArrayList<String>();
-                            QuerySnapshot rawDoc = task.getResult();
-                            DocumentSnapshot asdf = rawDoc.getDocuments().get(0);
-                            userName.add((String) asdf.getData().get("firstName"));
-                            userName.add((String) asdf.getData().get("lastName"));
-                            Log.d(TAG, "recipe name: " + " owner " + (String) asdf.getData().get("firstName") );
-                            userCallback.onCallback(userName);
+                            if(!task.getResult().isEmpty()) {
+                                QuerySnapshot rawDoc = task.getResult();
+                                Log.d(TAG, String.valueOf(rawDoc));
+                                Log.d(TAG, String.valueOf(userName));
+                                DocumentSnapshot asdf = rawDoc.getDocuments().get(0);
+                                userName.add((String) asdf.getData().get("firstName"));
+                                userName.add((String) asdf.getData().get("lastName"));
+                                Log.d(TAG, "recipe name: " + " owner " + (String) asdf.getData().get("firstName"));
+                                userCallback.onCallback(userName);
+                            }
                         } else {
                             userCallback.onCallback(new ArrayList<String>());
                         }
