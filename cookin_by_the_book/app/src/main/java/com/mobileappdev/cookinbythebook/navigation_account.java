@@ -39,11 +39,13 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
@@ -214,7 +216,9 @@ public class navigation_account extends Fragment {
             byte[] b = baos.toByteArray();
             String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
             Log.d(TAG, encodedImage);
-            db.getStore("users").document(globalSettingsReader.getString("uuid", "0'")).update("image", encodedImage);
+            Map<String, Object> imageData = new HashMap<>();
+            imageData.put("image", encodedImage);
+            db.getStore("users").document(globalSettingsReader.getString("uuid", "0'")).set(imageData, SetOptions.merge());
         }
     }
 

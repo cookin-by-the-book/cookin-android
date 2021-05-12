@@ -58,23 +58,28 @@ public class RegisterActivity extends AppCompatActivity {
                 String lName = editTextLastName.getText().toString();
 
                 if(!email.isEmpty() && !password.isEmpty()) {
-                    Log.d(TAG, "email and password");
-                    mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()) {
-                                Log.d(TAG, "user registered");
-                                user = new User(fName, lName, email, new ArrayList<>());
-                                db = FirebaseFirestore.getInstance();
-                                db.collection("users").add(user);
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                            } else {
-                                Log.d(TAG, "registration failed");
-                                Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                    if(password.length() < 6) {
+                        Toast.makeText(RegisterActivity.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Log.d(TAG, "email and password");
+                        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if(task.isSuccessful()) {
+                                    Log.d(TAG, "user registered");
+                                    user = new User(fName, lName, email, new ArrayList<>());
+                                    db = FirebaseFirestore.getInstance();
+                                    db.collection("users").add(user);
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                } else {
+                                    Log.d(TAG, "registration failed");
+                                    Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 } else {
                     Toast.makeText(RegisterActivity.this, "Please enter values", Toast.LENGTH_SHORT).show();
                 }
