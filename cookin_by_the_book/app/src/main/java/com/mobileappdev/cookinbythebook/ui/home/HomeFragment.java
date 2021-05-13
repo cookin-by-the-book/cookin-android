@@ -89,6 +89,7 @@ public class HomeFragment extends Fragment {
                                         Log.d(TAG, owner);
                                         //String owner = userName.get(0);
                                         Recipe incoming = new Recipe(name, owner, picture, ingredients, notes, sharedWith, steps, favorited, categories, prepTime, cookTime, servings);
+                                        incoming.setUuidOhMyGod(document.getId());
                                         recipeArrayList.add(incoming);
                                         RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
                                         mListView.setAdapter(adapter);

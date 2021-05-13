@@ -23,6 +23,7 @@ public class Recipe implements Parcelable {
     public String prepTime;
     public String cookTime;
     public String servings;
+    private String uuidOhMyGod;
 
     public Recipe(String name, String owner, String picture, Map<String, String> ingredients, String notes, ArrayList<String> sharedWith, ArrayList<String> steps, ArrayList<String> favorited, ArrayList<String> category, String prepTime, String cookTime, String servings) {
         this.name = name;
@@ -135,6 +136,14 @@ public class Recipe implements Parcelable {
         this.servings = servings;
     }
 
+    public String getUuidOhMyGod() {
+        return uuidOhMyGod;
+    }
+
+    public void setUuidOhMyGod(String uuidOhMyGod) {
+        this.uuidOhMyGod = uuidOhMyGod;
+    }
+
     @Override
     public String toString() {
         return "Recipe{" +
@@ -192,6 +201,7 @@ public class Recipe implements Parcelable {
         dest.writeString(this.prepTime);
         dest.writeString(this.cookTime);
         dest.writeString(this.servings);
+        dest.writeString(this.uuidOhMyGod);
     }
 
     public void readFromParcel(Parcel source) {
@@ -213,6 +223,7 @@ public class Recipe implements Parcelable {
         this.prepTime = source.readString();
         this.cookTime = source.readString();
         this.servings = source.readString();
+        this.uuidOhMyGod = source.readString();
     }
 
     protected Recipe(Parcel in) {
@@ -234,6 +245,7 @@ public class Recipe implements Parcelable {
         this.prepTime = in.readString();
         this.cookTime = in.readString();
         this.servings = in.readString();
+        this.uuidOhMyGod = in.readString();
     }
 
     public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {

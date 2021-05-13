@@ -22,7 +22,16 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -41,6 +50,8 @@ public class ViewRecipeActivity extends AppCompatActivity {
     TextView notes;
     TextView categories;
     ImageView recipePicture;
+    Databaser db = new Databaser();
+    Recipe incame;
 
     ArrayList<Ingredient> ingredientArrayList = new ArrayList<>();
     ArrayList<Step> stepArrayList = new ArrayList<>();
@@ -52,9 +63,9 @@ public class ViewRecipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_recipe);
 
-
         Bundle data = getIntent().getExtras();
-        Recipe incame = (Recipe) data.get("recipe");
+        incame = (Recipe) data.get("recipe");
+        Log.d(TAG, "please fucking work: " + incame.getUuidOhMyGod());
 
         // set the things to the thing
         recipeName = (TextView) findViewById(R.id.staticRecipeName);
@@ -67,6 +78,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
         categories = (TextView) findViewById(R.id.staticCategoriesText);
         recipePicture = (ImageView) findViewById(R.id.staticRecipePhoto);
 
+        db.init();
         // set the picture?
         if (!incame.picture.isEmpty()) {
             byte[] decodedString = android.util.Base64.decode(incame.picture, Base64.DEFAULT);
@@ -120,29 +132,6 @@ public class ViewRecipeActivity extends AppCompatActivity {
 
     }
 
-
-    /*
-final EditText input = new EditText(this);
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-builder.setView(input);
-
-// Set up the buttons
-builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        m_Text = input.getText().toString();
-    }
-});
-builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        dialog.cancel();
-    }
-});
-
-builder.show();
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         SharedPreferences globalSettingsReader = (((App) this.getApplication()).preferences);
@@ -162,6 +151,7 @@ builder.show();
                     public void onClick(DialogInterface dialog, int which) {
                         String emailToShareWith = input.getText().toString();
                         Log.d(TAG, emailToShareWith);
+                        shareWith(emailToShareWith);
 
                     }
                 });
@@ -190,4 +180,31 @@ builder.show();
     public void onBackPressed() {
         super.onBackPressed();
     }
+
+    private void shareWith(String email) {
+        db.getStore("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    // determine if the email is an email in the database or not...
+                    boolean recipeWasShared = false;
+                    for (QueryDocumentSnapshot document0 : task.getResult()) {
+                        Map<String, Object> parsed = document0.getData();
+                        // if the email matches!
+                        if (email.equals((String) parsed.get("email"))) {
+                            recipeWasShared = true;
+                            Log.d(TAG, "got something");
+                            db.getStore("users").document(document0.getId()).update("recipes", FieldValue.arrayUnion(incame.getUuidOhMyGod()));
+                            Toast.makeText(ViewRecipeActivity.this, "Shared Recipe!", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    }
+                    if(!recipeWasShared) {
+                        Toast.makeText(ViewRecipeActivity.this, "User with that email not found", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+    }
 }
+
