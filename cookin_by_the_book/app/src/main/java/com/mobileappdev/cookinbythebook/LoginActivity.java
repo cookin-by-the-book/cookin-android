@@ -17,6 +17,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -35,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         registerButton = (Button) findViewById(R.id.register);
         editTextEmail = (EditText) findViewById(R.id.emailLogin);
         editTextPassword = (EditText) findViewById(R.id.passwordLogin);
+        Databaser db = new Databaser();
+        db.init();
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,10 +57,34 @@ public class LoginActivity extends AppCompatActivity {
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 FirebaseUser user = mAuth.getCurrentUser();
 
-                                // let me try doing it here?
-//                                SharedPreferences.Editor globalSettingsEditor = ((App)getApplication()).preferences.edit();
-//                                globalSettingsEditor.putString("email", user.getEmail());
-//                                globalSettingsEditor.commit();
+                                SharedPreferences globalSettingsReader = (((App) getApplication()).preferences);
+                                SharedPreferences.Editor globalSettingsEditor = (((App) getApplication()).preferences.edit());
+
+//                                SharedPreferences.Editor globalSettingsEditor = ((App)getActivity().getApplication()).preferences.edit();
+//                                SharedPreferences globalSettingsReader = ((App)getActivity().getApplication()).preferences;
+
+                                db.getStore("users")
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        Map<String, Object> incomingUser = document.getData();
+                                                        String incomingEmail = (String) incomingUser.get("email");
+                                                        if (incomingEmail.equals(user.getEmail())) {
+                                                            globalSettingsEditor.putString("uuid", document.getId());
+                                                            globalSettingsEditor.commit();
+                                                            break;
+                                                        }
+                                                    }
+                                                    Log.d(TAG, globalSettingsReader.getString("uuid", "0"));
+
+                                                } else {
+                                                    Toast.makeText(LoginActivity.this, "This should never appear", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
                             } else {
                                 Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                             }

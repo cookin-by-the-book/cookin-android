@@ -194,7 +194,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
                         if (email.equals((String) parsed.get("email"))) {
                             recipeWasShared = true;
                             Log.d(TAG, "got something");
-                            db.getStore("users").document(document0.getId()).update("recipes", FieldValue.arrayUnion(incame.getUuidOhMyGod()));
+                            db.getStore("users").document(document0.getId()).update("shared", FieldValue.arrayUnion(incame.getUuidOhMyGod()));
                             Toast.makeText(ViewRecipeActivity.this, "Shared Recipe!", Toast.LENGTH_SHORT).show();
                             break;
                         }

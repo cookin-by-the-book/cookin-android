@@ -1,6 +1,7 @@
 package com.mobileappdev.cookinbythebook;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,8 +18,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -27,6 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button loginButton, registerButton;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private Databaser db2;
     private User user;
 
     @Override
@@ -41,6 +46,9 @@ public class RegisterActivity extends AppCompatActivity {
         editTextPassword = (EditText) findViewById(R.id.passwordLogin);
         editTextFirstName = (EditText) findViewById(R.id.firstName);
         editTextLastName = (EditText) findViewById(R.id.lastName);
+
+        db2 = new Databaser();
+        db2.init();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +80,35 @@ public class RegisterActivity extends AppCompatActivity {
                                     db = FirebaseFirestore.getInstance();
                                     db.collection("users").add(user);
                                     FirebaseUser user = mAuth.getCurrentUser();
+
+                                    // copy yank that code boi
+                                    SharedPreferences globalSettingsReader = (((App) getApplication()).preferences);
+                                    SharedPreferences.Editor globalSettingsEditor = (((App) getApplication()).preferences.edit());
+                                    db2.getStore("users")
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                            Map<String, Object> incomingUser = document.getData();
+                                                            String incomingEmail = (String) incomingUser.get("email");
+                                                            if (incomingEmail.equals(user.getEmail())) {
+                                                                globalSettingsEditor.putString("uuid", document.getId());
+                                                                globalSettingsEditor.commit();
+                                                                break;
+                                                            }
+                                                        }
+                                                        Log.d(TAG, globalSettingsReader.getString("uuid", "0"));
+
+                                                    } else {
+                                                        Toast.makeText(RegisterActivity.this, "This should never appear", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+
+
+
                                     startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                                 } else {
                                     Log.d(TAG, "registration failed");
