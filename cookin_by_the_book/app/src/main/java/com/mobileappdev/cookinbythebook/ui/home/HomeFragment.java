@@ -30,6 +30,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.mobileappdev.cookinbythebook.App;
 import com.mobileappdev.cookinbythebook.Databaser;
+import com.mobileappdev.cookinbythebook.MainActivity;
 import com.mobileappdev.cookinbythebook.R;
 import com.mobileappdev.cookinbythebook.Recipe;
 import com.mobileappdev.cookinbythebook.RecipeArrayAdapter;
@@ -60,7 +61,6 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         ListView mListView = (ListView) root.findViewById((R.id.homeListView));
         ArrayList<Recipe> recipeArrayList = new ArrayList<>();
-
         // recipe objects (here is where we would query the DB)
 
         Databaser db = new Databaser();
@@ -202,4 +202,5 @@ public class HomeFragment extends Fragment {
         Log.d(TAG, "onCreateView completed");
         return root;
     }
+
 }

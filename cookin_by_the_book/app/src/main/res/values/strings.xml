@@ -43,4 +43,6 @@
     <string name="ingredient">Ingredient</string>
     <string name="quantity">Quantity</string>
     <string name="step">Step</string>
+    <string name="all_recipes">All Recipes</string>
+    <string name="my_recipes">My Recipes</string>
 </resources>
