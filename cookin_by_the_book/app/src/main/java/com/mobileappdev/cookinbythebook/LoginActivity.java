@@ -1,6 +1,7 @@
 package com.mobileappdev.cookinbythebook;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,7 +35,6 @@ public class LoginActivity extends AppCompatActivity {
         registerButton = (Button) findViewById(R.id.register);
         editTextEmail = (EditText) findViewById(R.id.emailLogin);
         editTextPassword = (EditText) findViewById(R.id.passwordLogin);
-
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,6 +50,11 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d(TAG, "login success");
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 FirebaseUser user = mAuth.getCurrentUser();
+
+                                // let me try doing it here?
+//                                SharedPreferences.Editor globalSettingsEditor = ((App)getApplication()).preferences.edit();
+//                                globalSettingsEditor.putString("email", user.getEmail());
+//                                globalSettingsEditor.commit();
                             } else {
                                 Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                             }

@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -96,6 +98,14 @@ public class ViewRecipeActivity extends AppCompatActivity {
 
         Log.d(TAG, incame.toString());
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        SharedPreferences globalSettingsReader = (((App) this.getApplication()).preferences);
+
+        getMenuInflater().inflate(R.menu.share_recipe, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

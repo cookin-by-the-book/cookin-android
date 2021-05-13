@@ -1,15 +1,25 @@
 package com.mobileappdev.cookinbythebook;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +30,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -34,11 +45,14 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,11 +65,15 @@ public class navigation_add_recipe extends Fragment {
 
     private ImageButton newIngredientsButton, newStepButton;
     private ListView ingredientsListView, stepsListView;
+    private static final int RESULT_LOAD_IMAGE = 1;
     public ArrayList<Ingredient> ingredientArrayList = new ArrayList<>();
     public ArrayList<Step> stepArrayList = new ArrayList<>();
     public EditText recipeName, prepTime, cookTime, servings, notes, categories;
+    public ImageButton recipePhoto;
     private User user;
     private Databaser db;
+    private View i;
+    private String recipePicture = "";
     FirebaseAuth mAuth;
 
 
@@ -119,6 +137,8 @@ public class navigation_add_recipe extends Fragment {
         servings = (EditText) root.findViewById(R.id.editServings);
         notes = (EditText) root.findViewById(R.id.editNotesTextMultiLine);
         categories = (EditText) root.findViewById(R.id.editCategoriesText);
+
+        recipePhoto = (ImageButton) root.findViewById(R.id.editRecipeImage);
 
 
         db = new Databaser();
@@ -231,11 +251,69 @@ public class navigation_add_recipe extends Fragment {
             }
         });
 
+        // photo button on click
+        recipePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, RESULT_LOAD_IMAGE);
+                } else {
+                    startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), RESULT_LOAD_IMAGE);
+                }
+            }
+        });
 
+        i = root;
 
         return root;
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        SharedPreferences globalSettingsReader = (((App) getActivity().getApplication()).preferences);
+
+        // i think the db is already initt'ed here
+
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            Cursor cursor = getActivity().getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePth = cursor.getString(columnIndex);
+            cursor.close();
+            Log.d(TAG, picturePth);
+            Bitmap bm = BitmapFactory.decodeFile(picturePth);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] b = baos.toByteArray();
+            String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+            Log.d(TAG, encodedImage);
+            recipePicture = encodedImage;
+            recipePhoto.setImageResource(R.drawable.ic_baseline_check_circle_24);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults)
+    {
+        switch (requestCode) {
+            case RESULT_LOAD_IMAGE:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
+                } else {
+                    //do something like displaying a message that he didn`t allow the app to access gallery and you wont be able to let him select from gallery
+                }
+                break;
+        }
+    }
+
+    // actioin bar buttons
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -325,7 +403,7 @@ public class navigation_add_recipe extends Fragment {
         Recipe outgoing = new Recipe(
                 recipeName,
                 userUUID,
-                "",
+                recipePicture,
                 ingredientsMap,
                 notes,
                 new ArrayList<>(),
@@ -363,3 +441,4 @@ public class navigation_add_recipe extends Fragment {
          
     }
 }
+
