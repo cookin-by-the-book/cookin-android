@@ -4,15 +4,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -115,11 +120,61 @@ public class ViewRecipeActivity extends AppCompatActivity {
 
     }
 
+
+    /*
+final EditText input = new EditText(this);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+builder.setView(input);
+
+// Set up the buttons
+builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        m_Text = input.getText().toString();
+    }
+});
+builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        dialog.cancel();
+    }
+});
+
+builder.show();
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         SharedPreferences globalSettingsReader = (((App) this.getApplication()).preferences);
-
         getMenuInflater().inflate(R.menu.share_recipe, menu);
+        MenuItem shareButton = menu.findItem(R.id.action_share_recipe);
+        shareButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Log.d(TAG, "SHARE BUTTON PUSHED");
+                AlertDialog.Builder builder = new AlertDialog.Builder(ViewRecipeActivity.this);
+                builder.setTitle("Email to share with:");
+                final EditText input = new EditText(ViewRecipeActivity.this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+                builder.setView(input);
+                builder.setPositiveButton("Share", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String emailToShareWith = input.getText().toString();
+                        Log.d(TAG, emailToShareWith);
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+                return false;
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
 
