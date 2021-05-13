@@ -5,10 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,6 +35,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
     ListView stepsListView;
     TextView notes;
     TextView categories;
+    ImageView recipePicture;
 
     ArrayList<Ingredient> ingredientArrayList = new ArrayList<>();
     ArrayList<Step> stepArrayList = new ArrayList<>();
@@ -54,6 +60,15 @@ public class ViewRecipeActivity extends AppCompatActivity {
         stepsListView = (ListView) findViewById(R.id.staticStepsListView);
         notes = (TextView) findViewById(R.id.staticNotesTextMultiLine);
         categories = (TextView) findViewById(R.id.staticCategoriesText);
+        recipePicture = (ImageView) findViewById(R.id.staticRecipePhoto);
+
+        // set the picture?
+        if (!incame.picture.isEmpty()) {
+            byte[] decodedString = android.util.Base64.decode(incame.picture, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            recipePicture.setImageBitmap(decodedByte);
+        }
+
 
         // set the TextViews to what they should be
         recipeName.setText(incame.name + " by " + incame.owner);

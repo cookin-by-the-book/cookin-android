@@ -24,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal"
                 >
 
@@ -31,13 +32,20 @@
                     android:id="@+id/staticRecipeName"
                     android:gravity="center"
                     android:layout_width="0dp"
-                    android:layout_height="55dp"
+                    android:layout_height="125dp"
                     android:layout_weight="25"
                     android:autoSizeTextType="uniform"
                     android:autoSizeMaxTextSize="36sp"
                     android:ems="10"
                     android:text="Placeholder Text"
                     />
+
+                <ImageView
+                    android:id="@+id/staticRecipePhoto"
+                    android:layout_width="0dp"
+                    android:layout_height="125dp"
+                    android:layout_weight="25"
+                    app:srcCompat="@drawable/wine" />
 
 
             </LinearLayout>
