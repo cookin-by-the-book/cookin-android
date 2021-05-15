@@ -76,6 +76,7 @@ public class DashboardFragment extends Fragment {
         });
         setHasOptionsMenu(true);
 
+        // Initialize the listview that will display the recipe tiles
         ListView mListView = (ListView) root.findViewById((R.id.homeListView));
         ArrayList<Recipe> recipeArrayList = new ArrayList<>();
         ArrayList<Recipe> allRecipesArrayList = new ArrayList<>();
@@ -84,14 +85,15 @@ public class DashboardFragment extends Fragment {
         // recipe objects (here is where we would query the DB)
         Spinner spinner = (Spinner) root.findViewById(R.id.filter_spinner);
         Spinner spinner2 = (Spinner) root.findViewById(R.id.search_spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
 
+        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this.getContext(),
                 R.array.filters_array, android.R.layout.simple_spinner_item);
 
         ArrayAdapter<CharSequence> spinner2Adapter = ArrayAdapter.createFromResource(this.getContext(),
                 R.array.search_array, android.R.layout.simple_spinner_item);
 
+        // Create the "filter by" and "search by" spinners
         spinner.setAdapter(spinnerAdapter);
         spinner2.setAdapter(spinner2Adapter);
 
@@ -135,6 +137,8 @@ public class DashboardFragment extends Fragment {
             }
         });
 
+        // Listen for spinner values to change and refresh the fragment to update it based on
+        // the newly set value
         obsInt.setOnIntegerChangeListener(new OnIntegerChangeListener()
         {
             @Override
@@ -150,14 +154,17 @@ public class DashboardFragment extends Fragment {
         final String[] userID = {""};
         final String[] userFirst = {""};
 
+        // Get the info about the logged in firebase user
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String authEmail = user.getEmail();
 
+        // Initialize the databaser
         Databaser db = new Databaser();
         db.init();
         CollectionReference recipeStore = db.getStore("recipes");
         CollectionReference userStore = db.getStore("users");
 
+        // Once the user has been acquired from the database save some useful information about them
         userStore.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task0) {
@@ -177,13 +184,14 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        // this is async, so it's sorta annoying
+        // Load the correct recipes from the database into the listview
         recipeStore.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
+                                // Get all the info about the recipes
                                 Map<String, Object> dater = document.getData();
                                 String name = (String) dater.get("name");
                                 String picture = (String) dater.get("picture");
@@ -196,6 +204,8 @@ public class DashboardFragment extends Fragment {
                                 String prepTime = (String) dater.get("prepTime");
                                 String cookTime = (String) dater.get("cookTime");
                                 String servings = (String) dater.get("servings");
+                                // Filter out the recipes that should be filtered out based on
+                                // spinner and search values
                                 db.getName((String)dater.get("owner"), new Databaser.UserCallback() {
                                     @Override
                                     public void onCallback(ArrayList<String> userName) {
@@ -240,7 +250,7 @@ public class DashboardFragment extends Fragment {
                                                 }
                                             }
                                         }
-
+                                        // Sort the recipes to be displayed into alphabetical order
                                         Collections.sort(recipeArrayList,new Comparator<Recipe>() {
                                             @Override
                                             public int compare (Recipe r1, Recipe r2){
@@ -251,8 +261,8 @@ public class DashboardFragment extends Fragment {
                                     }
                                 });
                             }
+                        // This executes if reading in the recipes fails
                         } else {
-                            //Log.d(TAG, "Error getting documents.", task.getException());
                             RecipeArrayAdapter adapter = new RecipeArrayAdapter(getContext(), R.layout.recipe_item, recipeArrayList);
                             mListView.setAdapter(adapter);
                         }
@@ -266,6 +276,7 @@ public class DashboardFragment extends Fragment {
             }
         });
 
+        // Open up the corresponding recipe page when a recipe in the listview is clicked
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -279,12 +290,10 @@ public class DashboardFragment extends Fragment {
         return root;
     }
 
+    // Set up the search functionality
     // Based on answers to https://stackoverflow.com/q/34291453
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //final boolean[] hasChanged = new boolean[1];
-        //hasChanged[0] = false;
-
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.options_menu, menu);
@@ -298,6 +307,7 @@ public class DashboardFragment extends Fragment {
         item.setActionView(searchView);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            // Searches when a search is entered
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.d(TAG, "REACHED onQueryTextSubmit");
@@ -307,6 +317,7 @@ public class DashboardFragment extends Fragment {
                 return false;
             }
 
+            // Updates every time the search term updates so that you can search more than once
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (TextUtils.isEmpty(newText) && obsInt.getChanged() == 1) {

@@ -11,7 +11,7 @@
     <string name="account_avatar">account avatar</string>
     <string-array name="filters_array">
         <item>None</item>
-        <item>Favorites</item>
+        <!-- <item>Favorites</item> -->
         <item>My Recipes</item>
         <item>Shared with me</item>
     </string-array>
