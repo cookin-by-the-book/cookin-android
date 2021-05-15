@@ -1,5 +1,6 @@
 package com.mobileappdev.cookinbythebook;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class User {
@@ -8,12 +9,14 @@ public class User {
     public String lastName;
     public String email;
     public ArrayList<Recipe> recipes;
+    public ArrayList<Recipe> shared;
 
-    public User(String firstName, String lastName, String email, ArrayList<Recipe> recipes) {
+    public User(String firstName, String lastName, String email, ArrayList<Recipe> recipes, ArrayList<Recipe> shared) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.recipes = recipes;
+        this.shared = shared;
     }
 
     public String getFirstName() {

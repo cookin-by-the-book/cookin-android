@@ -76,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()) {
                                     Log.d(TAG, "user registered");
-                                    user = new User(fName, lName, email, new ArrayList<>());
+                                    user = new User(fName, lName, email, new ArrayList<>(), new ArrayList<>());
                                     db = FirebaseFirestore.getInstance();
                                     db.collection("users").add(user);
                                     FirebaseUser user = mAuth.getCurrentUser();
