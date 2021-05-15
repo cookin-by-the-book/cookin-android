@@ -153,6 +153,8 @@ public class DashboardFragment extends Fragment {
         String search = obsInt.getSearch();
         final String[] userID = {""};
         final String[] userFirst = {""};
+        //final String[] userShared = {""};
+        final ArrayList<String>[] userShared = new ArrayList[]{new ArrayList<String>()};
 
         // Get the info about the logged in firebase user
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -173,7 +175,10 @@ public class DashboardFragment extends Fragment {
                         Map<String, Object> dater0 = document0.getData();
                         String email = (String) dater0.get("email");
                         String firstName = (String) dater0.get("firstName");
+                        ArrayList<String> shared = (ArrayList<String>) dater0.get("shared");
                         if (email.equals(authEmail)) {
+                            Log.d(TAG, String.valueOf(shared));
+                            userShared[0] = shared;
                             userFirst[0] = firstName;
                             userID[0] = document0.getId();
                         }
@@ -183,7 +188,8 @@ public class DashboardFragment extends Fragment {
                 }
             }
         });
-
+        Log.d(TAG, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        //.d(TAG, String.valueOf(userShared[0]));
         // Load the correct recipes from the database into the listview
         recipeStore.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -193,6 +199,7 @@ public class DashboardFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 // Get all the info about the recipes
                                 Map<String, Object> dater = document.getData();
+                                String id = document.getId();
                                 String name = (String) dater.get("name");
                                 String picture = (String) dater.get("picture");
                                 Map<String, String> ingredients = (Map<String, String>) dater.get("ingredients");
@@ -243,7 +250,7 @@ public class DashboardFragment extends Fragment {
                                                         recipeArrayList.add(incoming);
                                                     }
                                                 } else if (spinnerVal.equals("Shared with me")) {
-                                                    if (!incoming.owner.equals(userID[0])) {
+                                                    if (userShared[0].contains(id)) {
                                                         recipeArrayList.add(incoming);
                                                     }
                                                 } else {
