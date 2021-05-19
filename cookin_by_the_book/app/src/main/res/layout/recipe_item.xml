@@ -9,23 +9,24 @@
 
     <TextView
         android:id="@+id/recipeName"
-        android:layout_width="match_parent"
+        android:layout_width="324dp"
         android:layout_height="124dp"
+        android:layout_alignParentLeft="true"
         android:layout_weight="30"
+        android:gravity="left|center_vertical"
         android:paddingVertical="25dp"
+        android:paddingHorizontal="25dp"
         android:text="TextView"
-        android:gravity="center"
-        android:textSize="23dp"
         android:textColor="@color/black"
-        />
+        android:textSize="23dp" />
+
     <ImageView
         android:id="@+id/recipePhoto"
         android:layout_width="wrap_content"
         android:layout_height="125dp"
-        android:layout_weight="70"
-        android:layout_marginLeft="25dp"
+        android:layout_marginLeft="0dp"
         android:layout_marginRight="25dp"
-        android:src="@drawable/wine"
-        />
+        android:layout_weight="100"
+        android:src="@drawable/wine" />
 
 </LinearLayout>
